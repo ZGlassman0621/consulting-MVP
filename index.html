@@ -160,26 +160,6 @@
   }
   .hero h1 .accent-pink { color: var(--pink); }
 
-  .hero-experience {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: rgba(77,159,255,0.07);
-    border: 1px solid var(--border-bright);
-    border-radius: 100px;
-    padding: 8px 20px;
-    margin-bottom: 28px;
-    opacity: 0;
-    animation: fadeUp 0.7s ease forwards 0.25s;
-  }
-  .hero-experience::before { content: '★'; color: var(--blue); font-size: 11px; }
-  .hero-experience span {
-    font-size: 12.5px;
-    color: var(--blue);
-    font-weight: 600;
-    letter-spacing: 0.3px;
-  }
-
   .hero-sub {
     font-size: 18px;
     color: var(--muted);
@@ -221,19 +201,6 @@
     box-shadow: 0 8px 30px rgba(77,159,255,0.3);
   }
 
-  .btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    color: var(--off-white);
-    font-weight: 500;
-    font-size: 15px;
-    text-decoration: none;
-    padding: 14px 4px;
-    border-bottom: 1px solid var(--border);
-    transition: all 0.2s;
-  }
-  .btn-secondary:hover { color: var(--white); border-color: var(--white); }
-
   /* SECTION BASE */
   section { padding: 100px 48px; position: relative; }
 
@@ -268,37 +235,40 @@
   .centered { text-align: center; }
   .centered .section-sub { margin: 0 auto; }
 
-  /* PAIN */
-  #consulting {
+  /* SOUND FAMILIAR */
+  #familiar {
     background: var(--bg2);
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
   }
 
-  .pain-prose { max-width: 780px; }
-
-  .pain-prose h3 {
-    font-family: 'Outfit', sans-serif;
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--white);
-    letter-spacing: -0.4px;
-    margin-bottom: 12px;
-    margin-top: 40px;
-    line-height: 1.3;
-  }
-  .pain-prose h3:first-of-type { margin-top: 0; }
-
-  .pain-prose p {
-    font-size: 15.5px;
-    color: var(--muted);
-    line-height: 1.8;
+  .pain-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 48px;
+    max-width: 900px;
+    margin: 0 auto;
   }
 
-  .pain-rule {
-    height: 1px;
-    background: var(--border);
-    margin: 32px 0;
+  .pain-item {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .pain-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--pink);
+    flex-shrink: 0;
+    margin-top: 8px;
+  }
+
+  .pain-item p {
+    font-size: 15px;
+    color: var(--off-white);
+    line-height: 1.7;
   }
 
   /* HOW IT WORKS */
@@ -365,17 +335,6 @@
     color: var(--blue);
   }
 
-  .step-num-label {
-    font-family: 'Outfit', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 3px;
-    color: var(--blue);
-    margin-bottom: 10px;
-  }
-  .step-card:nth-child(2) .step-num-label { color: var(--pink); }
-  .step-card:nth-child(3) .step-num-label { color: var(--blue); }
-
   .step-card h3 {
     font-family: 'Outfit', sans-serif;
     font-size: 18px;
@@ -390,251 +349,6 @@
     font-size: 13.5px;
     color: var(--muted);
     line-height: 1.7;
-  }
-
-  /* TIERS */
-  #tiers {
-    background: var(--bg2);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-
-  /* EVALUATION CARD */
-  .eval-card {
-    max-width: 860px;
-    margin: 24px auto 0;
-    background: var(--bg);
-    border: 1px solid rgba(255,59,139,0.25);
-    border-radius: 12px;
-    padding: 28px 36px;
-    display: grid;
-    grid-template-columns: 150px 1fr auto;
-    gap: 0;
-    align-items: center;
-  }
-
-  .eval-price-block {
-    text-align: center;
-    padding-right: 32px;
-    border-right: 1px solid var(--border);
-  }
-
-  .eval-price {
-    font-family: 'Outfit', sans-serif;
-    font-size: 42px;
-    font-weight: 800;
-    color: var(--pink);
-    letter-spacing: -1.5px;
-    line-height: 1;
-  }
-
-  .eval-price-label {
-    font-size: 10px;
-    color: var(--muted);
-    font-weight: 600;
-    margin-top: 6px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-  }
-
-  .eval-body {
-    padding: 0 32px;
-  }
-
-  .eval-body strong {
-    font-family: 'Outfit', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--white);
-    display: block;
-    margin-bottom: 6px;
-  }
-
-  .eval-body p {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.65;
-  }
-
-  .eval-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(255,59,139,0.12);
-    color: var(--pink);
-    border: 1px solid rgba(255,59,139,0.3);
-    padding: 12px 22px;
-    border-radius: 8px;
-    font-family: 'Outfit', sans-serif;
-    font-weight: 700;
-    font-size: 14px;
-    text-decoration: none;
-    white-space: nowrap;
-    transition: all 0.2s;
-  }
-  .eval-btn:hover { background: rgba(255,59,139,0.2); border-color: var(--pink); }
-
-  .tiers-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    max-width: 860px;
-    margin: 0 auto 48px;
-  }
-
-  .tier-card {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 36px;
-    position: relative;
-    transition: border-color 0.2s, transform 0.2s;
-  }
-  .tier-card:hover { border-color: rgba(77,159,255,0.3); transform: translateY(-2px); }
-  .tier-card.featured {
-    border-color: var(--blue);
-    background: linear-gradient(160deg, rgba(77,159,255,0.06) 0%, var(--bg) 60%);
-  }
-
-  .tier-badge {
-    position: absolute;
-    top: -12px; left: 24px;
-    background: var(--blue);
-    color: var(--bg);
-    font-family: 'Outfit', sans-serif;
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    padding: 4px 12px;
-    border-radius: 4px;
-  }
-
-  .tier-name {
-    font-family: 'Outfit', sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 12px;
-  }
-
-  .tier-price {
-    font-family: 'Outfit', sans-serif;
-    font-size: 48px;
-    font-weight: 800;
-    color: var(--white);
-    letter-spacing: -2px;
-    line-height: 1;
-    margin-bottom: 8px;
-  }
-
-  .tier-price-note {
-    font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 24px;
-  }
-
-  .tier-divider { height: 1px; background: var(--border); margin: 24px 0; }
-
-  .tier-includes {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 32px;
-  }
-
-  .tier-includes li {
-    font-size: 13.5px;
-    color: var(--off-white);
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-    line-height: 1.5;
-  }
-  .tier-includes li::before {
-    content: '✓';
-    color: var(--blue);
-    font-weight: 700;
-    font-size: 12px;
-    margin-top: 2px;
-    flex-shrink: 0;
-  }
-
-  .tier-btn {
-    display: block;
-    text-align: center;
-    padding: 13px;
-    border-radius: 8px;
-    font-family: 'Outfit', sans-serif;
-    font-weight: 700;
-    font-size: 14px;
-    text-decoration: none;
-    transition: all 0.2s;
-  }
-  .tier-btn-primary { background: var(--blue); color: var(--bg); }
-  .tier-btn-primary:hover { background: #6db3ff; box-shadow: 0 6px 24px rgba(77,159,255,0.25); }
-  .tier-btn-outline { background: transparent; color: var(--blue); border: 1px solid var(--border-bright); }
-  .tier-btn-outline:hover { background: var(--blue-dim); border-color: var(--blue); }
-
-  /* ADD-ONS */
-  .addons-section { max-width: 860px; margin: 0 auto; }
-
-  .addons-label {
-    font-family: 'Outfit', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-align: center;
-    margin-bottom: 20px;
-  }
-
-  .addons-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-bottom: 14px;
-  }
-
-  .addon-card {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 20px;
-    transition: border-color 0.2s;
-  }
-  .addon-card:hover { border-color: rgba(77,159,255,0.25); }
-
-  .addon-name {
-    font-family: 'Outfit', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--white);
-    margin-bottom: 4px;
-  }
-
-  .addon-price {
-    font-size: 12px;
-    color: var(--blue);
-    font-weight: 600;
-    margin-bottom: 8px;
-  }
-
-  .addon-desc {
-    font-size: 11.5px;
-    color: var(--muted);
-    line-height: 1.5;
-  }
-
-  .addons-note {
-    text-align: center;
-    font-size: 12px;
-    color: var(--muted);
-    font-style: italic;
   }
 
   /* ABOUT */
@@ -701,10 +415,251 @@
     line-height: 1.75;
   }
 
-  /* FAQ */
-  #faq {
+  /* EVALUATION CARD */
+  .eval-section {
     background: var(--bg2);
     border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .eval-card {
+    max-width: 860px;
+    margin: 0 auto;
+    background: var(--bg);
+    border: 1px solid rgba(255,59,139,0.25);
+    border-radius: 12px;
+    padding: 28px 36px;
+    display: grid;
+    grid-template-columns: 150px 1fr auto;
+    gap: 0;
+    align-items: center;
+  }
+
+  .eval-price-block {
+    text-align: center;
+    padding-right: 32px;
+    border-right: 1px solid var(--border);
+  }
+
+  .eval-eyebrow {
+    font-family: 'Outfit', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .eval-price {
+    font-family: 'Outfit', sans-serif;
+    font-size: 42px;
+    font-weight: 800;
+    color: var(--pink);
+    letter-spacing: -1.5px;
+    line-height: 1;
+  }
+
+  .eval-price-label {
+    font-size: 10px;
+    color: var(--muted);
+    font-weight: 600;
+    margin-top: 6px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .eval-body { padding: 0 32px; }
+
+  .eval-body strong {
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .eval-body p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .eval-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,59,139,0.12);
+    color: var(--pink);
+    border: 1px solid rgba(255,59,139,0.3);
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .eval-btn:hover { background: rgba(255,59,139,0.2); border-color: var(--pink); }
+
+  /* TIERS */
+  #tiers {
+    background: var(--bg);
+  }
+
+  .tiers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    max-width: 1060px;
+    margin: 0 auto;
+  }
+
+  .tier-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 36px;
+    position: relative;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .tier-card:hover { border-color: rgba(77,159,255,0.3); transform: translateY(-2px); }
+
+  .tier-name {
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--blue);
+    margin-bottom: 12px;
+  }
+
+  .tier-price {
+    font-family: 'Outfit', sans-serif;
+    font-size: 48px;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -2px;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .tier-price-note {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 24px;
+    font-style: italic;
+  }
+
+  .tier-divider { height: 1px; background: var(--border); margin: 24px 0; }
+
+  .tier-includes {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .tier-includes li {
+    font-size: 13.5px;
+    color: var(--off-white);
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    line-height: 1.5;
+  }
+  .tier-includes li::before {
+    content: '\2713';
+    color: var(--blue);
+    font-weight: 700;
+    font-size: 12px;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .tier-addons {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+  .tier-addons strong {
+    color: var(--off-white);
+    font-weight: 600;
+  }
+
+  .tier-btn {
+    display: block;
+    text-align: center;
+    padding: 13px;
+    border-radius: 8px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.2s;
+    margin-bottom: 16px;
+  }
+  .tier-btn-primary { background: var(--blue); color: var(--bg); }
+  .tier-btn-primary:hover { background: #6db3ff; box-shadow: 0 6px 24px rgba(77,159,255,0.25); }
+
+  /* RETAINERS */
+  #retainers {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .retainers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    max-width: 1060px;
+    margin: 0 auto;
+  }
+
+  .retainer-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    transition: border-color 0.2s;
+  }
+  .retainer-card:hover { border-color: rgba(77,159,255,0.25); }
+
+  .retainer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+  }
+
+  .retainer-name {
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  .retainer-price {
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--blue);
+  }
+
+  .retainer-desc {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* FAQ */
+  #faq {
+    background: var(--bg);
   }
 
   .faq-grid {
@@ -861,7 +816,7 @@
     section { padding: 72px 24px; }
     .hero { padding: 100px 24px 60px; }
     .hero h1 { font-size: 40px; letter-spacing: -1.5px; }
-    .steps-container, .tiers-grid, .team-grid, .faq-grid, .addons-grid { grid-template-columns: 1fr; }
+    .steps-container, .tiers-grid, .team-grid, .faq-grid, .retainers-grid, .pain-grid { grid-template-columns: 1fr; }
     .eval-card { grid-template-columns: 1fr; gap: 20px; }
     .eval-price-block { border-right: none; padding-right: 0; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
     .eval-body { padding: 0; }
@@ -878,11 +833,11 @@
 <nav>
   <a href="#" class="nav-logo">Cohort<span> Analytics</span></a>
   <ul class="nav-links">
-    <li><a href="#consulting">The Problem</a></li>
+    <li><a href="#familiar">Sound Familiar?</a></li>
     <li><a href="#tiers">Services</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#faq">FAQ</a></li>
-    <li><a href="https://calendly.com/zach-winecoanalytics" class="nav-cta">Book Evaluation — $400</a></li>
+    <li><a href="https://calendly.com/zach-winecoanalytics" class="nav-cta">Book Evaluation &mdash; $400</a></li>
   </ul>
 </nav>
 
@@ -890,26 +845,46 @@
 <section class="hero">
   <div class="hero-glow"></div>
   <div class="hero-glow-2"></div>
-  <div class="hero-eyebrow">Wine Industry Consulting</div>
-  <div class="hero-eyebrow-sub">Evaluate &nbsp;·&nbsp; Streamline &nbsp;·&nbsp; Connect</div>
-  <h1>Too many tools.<br><span class="accent-pink">Not enough revenue</span><br>to show for it.</h1>
-  <div class="hero-experience">
-    <span>Built on 15 years of wine industry experience</span>
-  </div>
-  <p class="hero-sub">We come to your winery, audit every program your team pays for, and hand you a clear plan — where you're overspending, where guests hit friction, and exactly what's standing between your team and more wine club memberships, reservations, and revenue.</p>
+  <div class="hero-eyebrow">Cohort Analytics</div>
+  <div class="hero-eyebrow-sub">Evaluate &nbsp;&middot;&nbsp; Streamline &nbsp;&middot;&nbsp; Connect</div>
+  <h1>Your winery has more potential<br><span class="accent-pink">than your current operations reveal.</span></h1>
+  <p class="hero-sub">We come to your winery, identify your three biggest priorities, and hand you a Cohort Analytics Playbook &mdash; a clear picture of where money is being left behind, and exactly what to do about it.</p>
   <div class="hero-actions">
-    <a href="https://calendly.com/zach-winecoanalytics" class="btn-primary">Book a 1-Hour Evaluation — $400 →</a>
+    <a href="https://calendly.com/zach-winecoanalytics" class="btn-primary">Book a 1-Hour Evaluation &mdash; $400 &rarr;</a>
   </div>
 </section>
 
-<!-- PAIN -->
-<section id="consulting">
+<!-- SOUND FAMILIAR -->
+<section id="familiar">
   <div class="section-header centered">
     <div class="section-label">Sound familiar?</div>
-    <h2 class="section-title">You know something's <span style="color:var(--pink)">off</span>.<br>You just can't pinpoint it.</h2>
+    <h2 class="section-title">You know something's <span style="color:var(--pink)">off</span>.</h2>
   </div>
-  <div class="pain-prose" style="margin: 0 auto; text-align: center;">
-    <p>Most wineries are running five to seven programs — and nobody has ever sat down to look at all of them together. You're paying for tools that overlap, subscriptions that have outlived their purpose, and features you're being charged for that your team has never once used. The waste is real, it's measurable, and it compounds every month you don't address it.</p>
+  <div class="pain-grid">
+    <div class="pain-item">
+      <div class="pain-dot"></div>
+      <p>Guests who taste and leave without joining the wine club</p>
+    </div>
+    <div class="pain-item">
+      <div class="pain-dot"></div>
+      <p>Paying for programs that overlap, duplicate, or sit unused</p>
+    </div>
+    <div class="pain-item">
+      <div class="pain-dot"></div>
+      <p>Events that fill seats but don't build loyalty or repeat visits</p>
+    </div>
+    <div class="pain-item">
+      <div class="pain-dot"></div>
+      <p>Manual data entry eating hours your team doesn't have</p>
+    </div>
+    <div class="pain-item">
+      <div class="pain-dot"></div>
+      <p>Staff who don't know how &mdash; or when &mdash; to close a sale</p>
+    </div>
+    <div class="pain-item">
+      <div class="pain-dot"></div>
+      <p>A tool you bought two years ago that nobody on your team actually uses</p>
+    </div>
   </div>
 </section>
 
@@ -918,130 +893,159 @@
   <div class="section-header centered">
     <div class="section-label">How it works</div>
     <h2 class="section-title">Three steps. One clear playbook.</h2>
-    <p class="section-sub">No lengthy onboarding. No software to install. We show up, do the work, and hand you something you can act on immediately.</p>
+    <p class="section-sub">No generic templates. Every engagement is scoped around your three biggest priorities.</p>
   </div>
   <div class="steps-container">
     <div class="step-card">
       <div class="step-icon-wrap">1</div>
-      <h3>We come to you.</h3>
-      <p>One full day on-site — or two for Premium. We walk your operation, interview your team, and map every program you're paying for and exactly what it costs.</p>
+      <h3>We come to you</h3>
+      <p>Every engagement starts on-site &mdash; your space, your team, your operation.</p>
     </div>
     <div class="step-card">
       <div class="step-icon-wrap">2</div>
-      <h3>We find the waste — and the gap.</h3>
-      <p>Overlapping tools, underused subscriptions, manual workarounds, guest friction points, missed upsell opportunities. We put a dollar figure on all of it.</p>
+      <h3>We find what matters</h3>
+      <p>We identify your three biggest priorities and scope the engagement around them. No generic templates.</p>
     </div>
     <div class="step-card">
       <div class="step-icon-wrap">3</div>
-      <h3>You get a playbook.</h3>
-      <p>A structured analytical deliverable showing what to cut, what to keep, and a priority action scorecard ranked by ROI — what to fix first for the fastest return.</p>
+      <h3>You get a Cohort Analytics Playbook</h3>
+      <p>A clear picture of where money is being left behind &mdash; and exactly what to do about it.</p>
     </div>
   </div>
-</section>
-
-<!-- TIERS -->
-<section id="tiers">
-  <div class="section-header centered">
-    <div class="section-label">Engagements & Pricing</div>
-    <h2 class="section-title">Two tiers. One goal:<br>operational clarity.</h2>
-    <p class="section-sub">Whether you need a focused one-day audit or a comprehensive two-day deep dive, we match the engagement to what your operation actually needs.</p>
-  </div>
-
-  <div class="tiers-grid">
-    <div class="tier-card featured">
-      <div class="tier-badge">Most Popular</div>
-      <div class="tier-name">Essentials</div>
-      <div class="tier-price">$2,500</div>
-      <div class="tier-price-note">1-day on-site engagement</div>
-      <div class="tier-divider"></div>
-      <ul class="tier-includes">
-        <li>Full software inventory & cost mapping</li>
-        <li>Overlap & redundancy analysis</li>
-        <li>Annual savings estimate</li>
-        <li>Guest experience pain point mapping</li>
-        <li>Priority action scorecard, ranked by ROI</li>
-        <li>Analytical playbook (Google Sheets)</li>
-        <li>6 monthly 30-minute check-in calls</li>
-      </ul>
-      <a href="https://calendly.com/zach-winecoanalytics" class="tier-btn tier-btn-primary">Book Essentials Engagement</a>
-    </div>
-    <div class="tier-card">
-      <div class="tier-name">Premium</div>
-      <div class="tier-price">$4,500</div>
-      <div class="tier-price-note">2-day on-site engagement</div>
-      <div class="tier-divider"></div>
-      <ul class="tier-includes">
-        <li>Everything in Essentials</li>
-        <li>Staff workflow analysis</li>
-        <li>On-site presentation of findings to ownership & staff</li>
-        <li>90-day implementation roadmap</li>
-      </ul>
-      <a href="https://calendly.com/zach-winecoanalytics" class="tier-btn tier-btn-outline">Book Premium Engagement</a>
-    </div>
-  </div>
-
-  <div class="addons-section">
-    <div class="addons-label">Most Popular Add-On Services</div>
-    <div class="addons-grid">
-      <div class="addon-card">
-        <div class="addon-name">Event Strategy</div>
-        <div class="addon-price">$1,500</div>
-        <div class="addon-desc">Planning frameworks, vendor relationships, and calendar optimization. Delivered by Madeleine.</div>
-      </div>
-      <div class="addon-card">
-        <div class="addon-name">Staff Training</div>
-        <div class="addon-price">$200/hr per person</div>
-        <div class="addon-desc">Tasting room sales, hospitality standards, and wine club membership growth.</div>
-      </div>
-      <div class="addon-card">
-        <div class="addon-name">Software Training</div>
-        <div class="addon-price">$150/hr per user</div>
-        <div class="addon-desc">Get more from the programs your team is already paying for.</div>
-      </div>
-      <div class="addon-card">
-        <div class="addon-name">Annual Retainer</div>
-        <div class="addon-price">$1,500/mo</div>
-        <div class="addon-desc">Monthly check-ins, playbook updates, and on-call support year-round.</div>
-      </div>
-    </div>
-    <p class="addons-note">Additional services available — ask about Shopify builds, passive revenue tools, and more.</p>
-  </div>
-
-  <div class="eval-card">
-    <div class="eval-price-block">
-      <div class="eval-price">$400</div>
-      <div class="eval-price-label">1-Hour Evaluation</div>
-    </div>
-    <div class="eval-body">
-      <strong>Not ready to commit? Start here.</strong>
-      <p>One focused hour — on-site or remote — reviewing your current setup and identifying your single biggest area of overspend. You'll walk away with a concrete dollar figure and a clear picture of what a full engagement would look like. The $400 applies in full toward an Essentials or Premium engagement if you move forward.</p>
-    </div>
-    <a href="https://calendly.com/zach-winecoanalytics" class="eval-btn">Book Now →</a>
-  </div>
-
 </section>
 
 <!-- ABOUT -->
 <section id="about">
   <div class="section-header centered">
-    <div class="section-label">Meet the team</div>
+    <div class="section-label">Who we are</div>
     <h2 class="section-title">Wine people.<br>Here to help.</h2>
-    <p class="section-sub">We're not consultants who discovered wine. We're wine people who learned the technology — because we had to.</p>
+    <p class="section-sub">We're not consultants who discovered wine. We're wine people who learned the technology &mdash; because we had to.</p>
   </div>
   <div class="team-grid">
     <div class="team-card">
       <div class="team-avatar">ZG</div>
       <div class="team-name">Zach Glassman</div>
-      <div class="team-title">Co-Founder & Chief Executive Officer</div>
-      <div class="team-creds">Certified Specialist of Wine · Certified Sommelier · Certified Software Engineer</div>
-      <p class="team-bio">Zach has lived his entire adult life in wineries as a wine educator. He has seen the pain wineries endure with broken workflows and bloated software budgets time and time again — redundant tools, manual reconciliation, revenue left on the table, poor guest experiences due to lacking technical expertise, and more. He built Cohort Analytics to fix it. You'll find Zach in the field, coming to your winery to lead every on-site engagement.</p>
+      <div class="team-title">Co-Founder &amp; Chief Executive Officer</div>
+      <div class="team-creds">Certified Specialist of Wine &middot; Certified Sommelier &middot; Certified Software Engineer</div>
+      <p class="team-bio">15 years inside American wineries &mdash; as an educator, floor manager, and operations consultant. He leads every on-site engagement himself.</p>
     </div>
     <div class="team-card">
       <div class="team-avatar">MK</div>
       <div class="team-name">Madeleine Koestner</div>
-      <div class="team-title">Co-Founder & Chief Sales Officer</div>
-      <div class="team-creds">Event Strategy · Business Development · Wine Enthusiast</div>
-      <p class="team-bio">Madeleine is excited to start her first foray into the wine industry through Cohort Analytics. She has always loved wine and found a deep love for New York wines over the past ten years. Her specialty comes from years of planning events for her micro cinema in Queens, NY — helping wineries develop their own event strategies to build trust and excitement with their guests, while building consistent revenue.</p>
+      <div class="team-title">Co-Founder &amp; Chief Revenue Officer</div>
+      <div class="team-creds">Event Strategy &middot; Business Development &middot; Wine Enthusiast</div>
+      <p class="team-bio">Built events that turn first-time visitors into regulars. At Cohort, she leads event strategy, wedding consulting, and business development.</p>
+    </div>
+  </div>
+</section>
+
+<!-- START HERE -->
+<section class="eval-section">
+  <div class="section-header centered">
+    <div class="section-label">Start here</div>
+    <h2 class="section-title">Book today &mdash; you'll have actionable<br>insight within the hour.</h2>
+  </div>
+  <div class="eval-card">
+    <div class="eval-price-block">
+      <div class="eval-eyebrow">Start Here</div>
+      <div class="eval-price">$400</div>
+      <div class="eval-price-label">1-Hour Evaluation</div>
+    </div>
+    <div class="eval-body">
+      <strong>1-Hour Evaluation</strong>
+      <p>One hour on-site or remote. We scope your engagement from there &mdash; and the $400 applies in full if you move forward.</p>
+    </div>
+    <a href="https://calendly.com/zach-winecoanalytics" class="eval-btn">Book Now &rarr;</a>
+  </div>
+</section>
+
+<!-- ENGAGEMENTS -->
+<section id="tiers">
+  <div class="section-header centered">
+    <div class="section-label">Engagements</div>
+    <h2 class="section-title">Three tracks. One goal:<br>operational clarity.</h2>
+    <p class="section-sub">Match the engagement to what your operation actually needs &mdash; software, operations, or both.</p>
+  </div>
+
+  <div class="tiers-grid">
+    <div class="tier-card">
+      <div class="tier-name">Software Essentials</div>
+      <div class="tier-price">$2,500</div>
+      <div class="tier-price-note">1-day on-site audit of every program your team uses to run the business.</div>
+      <div class="tier-divider"></div>
+      <ul class="tier-includes">
+        <li>Full software inventory &amp; cost mapping</li>
+        <li>Overlap &amp; redundancy analysis</li>
+        <li>Annual savings estimate</li>
+        <li>Priority action scorecard by ROI</li>
+        <li>Cohort Analytics Playbook</li>
+        <li>6 monthly 30-min check-in calls</li>
+      </ul>
+      <a href="https://calendly.com/zach-winecoanalytics" class="tier-btn tier-btn-primary">Book Software Essentials</a>
+      <div class="tier-addons"><strong>Add-ons:</strong> New software procurement &middot; Migration support &middot; Staff tech training</div>
+    </div>
+    <div class="tier-card">
+      <div class="tier-name">Operational Efficiency</div>
+      <div class="tier-price">$3,500</div>
+      <div class="tier-price-note">1-day on-site operational assessment of your guest journey, team, and revenue potential.</div>
+      <div class="tier-divider"></div>
+      <ul class="tier-includes">
+        <li>Guest journey &amp; conversion analysis</li>
+        <li>Wine club structure &amp; growth strategy</li>
+        <li>Library pricing &amp; feature recommendations</li>
+        <li>Staff sales &amp; hospitality assessment</li>
+        <li>Revenue initiative identification</li>
+        <li>Cohort Analytics Playbook</li>
+      </ul>
+      <a href="https://calendly.com/zach-winecoanalytics" class="tier-btn tier-btn-primary">Book Operational Efficiency</a>
+      <div class="tier-addons"><strong>Add-ons:</strong> Event management &middot; Wedding consulting &middot; Brand &amp; social strategy</div>
+    </div>
+    <div class="tier-card">
+      <div class="tier-name">Software &amp; Operations</div>
+      <div class="tier-price">$5,000</div>
+      <div class="tier-price-note">2-day deep dive combining both tracks. The complete picture.</div>
+      <div class="tier-divider"></div>
+      <ul class="tier-includes">
+        <li>Everything in Software Essentials</li>
+        <li>Everything in Operational Efficiency</li>
+        <li>Cohort Analytics Playbook</li>
+        <li>On-site presentation to ownership &amp; staff</li>
+        <li>90-day implementation roadmap</li>
+        <li>Priority cross-track recommendations</li>
+      </ul>
+      <a href="https://calendly.com/zach-winecoanalytics" class="tier-btn tier-btn-primary">Book Software &amp; Operations</a>
+      <div class="tier-addons"><strong>Add-ons:</strong> All add-ons from both tracks available</div>
+    </div>
+  </div>
+</section>
+
+<!-- RETAINERS -->
+<section id="retainers">
+  <div class="section-header centered">
+    <div class="section-label">Retainers</div>
+    <h2 class="section-title">Ongoing support. Always current.</h2>
+  </div>
+  <div class="retainers-grid">
+    <div class="retainer-card">
+      <div class="retainer-header">
+        <div class="retainer-name">Software Retainer</div>
+        <div class="retainer-price">$750/mo</div>
+      </div>
+      <p class="retainer-desc">Monthly check-ins, workbook updates, vendor management, and on-call support.</p>
+    </div>
+    <div class="retainer-card">
+      <div class="retainer-header">
+        <div class="retainer-name">Operations Retainer</div>
+        <div class="retainer-price">$1,000/mo</div>
+      </div>
+      <p class="retainer-desc">Monthly guidance, Playbook updates, seasonal planning, and wine club management.</p>
+    </div>
+    <div class="retainer-card">
+      <div class="retainer-header">
+        <div class="retainer-name">Software &amp; Operations</div>
+        <div class="retainer-price">$1,400/mo</div>
+      </div>
+      <p class="retainer-desc">Full ongoing support across both tracks, both deliverables kept current.</p>
     </div>
   </div>
 </section>
@@ -1055,19 +1059,19 @@
   <div class="faq-grid">
     <div class="faq-item">
       <div class="faq-q">What size winery is this for?</div>
-      <div class="faq-a">Any winery, any size. Essentials is built for operations that want a focused, efficient audit of their core systems. Premium is for anyone who wants a deeper, more comprehensive dive — the difference is the depth of engagement, not the size of your production.</div>
+      <div class="faq-a">Any winery, any size. Our engagements are scoped around your three biggest priorities &mdash; the difference is what you need, not how big your production is.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q">What do I need to prepare before you arrive?</div>
-      <div class="faq-a">Very little. After booking, we'll send a short intake form asking about your current programs and top priorities. That's it — we come prepared so you don't have to do homework.</div>
+      <div class="faq-a">Very little. After booking, we'll send a short intake form asking about your current programs and top priorities. That's it &mdash; we come prepared so you don't have to do homework.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q">How does the 1-hour evaluation work?</div>
-      <div class="faq-a">One focused hour — on-site or remote — reviewing your current software setup and identifying your biggest area of overspend. You'll leave with a concrete dollar figure. The $400 applies in full toward an Essentials or Premium engagement if you move forward.</div>
+      <div class="faq-a">One focused hour &mdash; on-site or remote &mdash; reviewing your current setup and identifying your biggest priorities. You'll leave with actionable insight. The $400 applies in full if you move forward.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">How does the 6-month follow-up work?</div>
-      <div class="faq-a">Included with every engagement. Six 30-minute calls, one per month, where we review how the playbook is performing, track what's changed, and adjust recommendations as your operation evolves.</div>
+      <div class="faq-q">What's included in the check-in calls?</div>
+      <div class="faq-a">Six 30-minute calls over six months, included with the Software Essentials engagement. We review how the playbook is performing, track changes, and adjust recommendations as your operation evolves.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q">Where do you work?</div>
@@ -1075,16 +1079,16 @@
     </div>
     <div class="faq-item">
       <div class="faq-q">What are your payment terms?</div>
-      <div class="faq-a">Full payment due at playbook delivery. Payment plans available: 50% day of, 50% at delivery — or 25% at signing, 25% day of, 25% at delivery, 25% at your 2-month check-in. We accept cash, check, Venmo, and Zelle.</div>
+      <div class="faq-a">Full payment due at playbook delivery. Payment plans available: 50% day of, 50% at delivery &mdash; or 25% at signing, 25% day of, 25% at delivery, 25% at your 2-month check-in. We accept cash, check, Venmo, and Zelle.</div>
     </div>
   </div>
 </section>
 
 <!-- CTA BANNER -->
 <div class="cta-banner">
-  <h2>Ready to see what you're<br>actually spending?</h2>
-  <p>Book a 1-hour evaluation and walk away with a concrete dollar figure of what your winery is overspending — and a clear sense of what a full engagement would do for your operation. The $400 applies in full if you move forward.</p>
-  <a href="https://calendly.com/zach-winecoanalytics" class="btn-primary">Book a 1-Hour Evaluation — $400 →</a>
+  <h2>Ready to find out what's working<br>and what isn't?</h2>
+  <p>Book your 1-Hour Evaluation and walk away with actionable insight &mdash; plus a clear sense of what a full engagement would do for your operation.</p>
+  <a href="https://calendly.com/zach-winecoanalytics" class="btn-primary">Book a 1-Hour Evaluation &mdash; $400 &rarr;</a>
 </div>
 
 <!-- FOOTER -->
@@ -1092,13 +1096,14 @@
   <div class="footer-inner">
     <div class="footer-brand">
       <div class="logo">Cohort<span> Analytics</span></div>
-      <div class="footer-tagline">"Every producer deserves a taste of clarity."</div>
+      <div class="footer-tagline">Evaluate &middot; Streamline &middot; Connect</div>
     </div>
     <div class="footer-col">
       <h4>Quick Links</h4>
       <ul>
-        <li><a href="#consulting">The Problem</a></li>
-        <li><a href="#tiers">Services & Pricing</a></li>
+        <li><a href="#familiar">Sound Familiar?</a></li>
+        <li><a href="#tiers">Engagements</a></li>
+        <li><a href="#retainers">Retainers</a></li>
         <li><a href="#about">About Us</a></li>
         <li><a href="#faq">FAQ</a></li>
       </ul>
@@ -1107,13 +1112,20 @@
       <h4>Contact</h4>
       <ul>
         <li>
-          <span>Sales & Partnerships</span>
-          <a href="/cdn-cgi/l/email-protection#6904080d0c050c00070c291e00070c0a0608070805101d000a1a470a0604"><span class="__cf_email__" data-cfemail="5c313d383930393532391c2b3532393f333d323d302528353f2f723f3331">[email&#160;protected]</span></a>
+          <span>Madeleine Koestner, CRO</span>
+          <a href="mailto:madeleine@winecoanalytics.com">madeleine@winecoanalytics.com</a>
         </li>
         <li>
-          <span>Engagements & Support</span>
-          <a href="/cdn-cgi/l/email-protection#dea4bfbdb69ea9b7b0bbbdb1bfb0bfb2a7aab7bdadf0bdb1b3"><span class="__cf_email__" data-cfemail="5e243f3d361e2937303b3d313f303f32272a373d2d703d3133">[email&#160;protected]</span></a>
+          <a href="https://winecoanalytics.com">www.winecoanalytics.com</a>
         </li>
-        <li>
-          <span>General</span>
-          <a href="/c
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Cohort Analytics. All rights reserved.</p>
+    <p>Book your 1-Hour Evaluation at <a href="https://winecoanalytics.com" style="color:var(--blue);text-decoration:none;">winecoanalytics.com</a> &middot; <a href="mailto:madeleine@winecoanalytics.com" style="color:var(--blue);text-decoration:none;">madeleine@winecoanalytics.com</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
