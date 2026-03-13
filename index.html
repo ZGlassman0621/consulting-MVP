@@ -666,9 +666,11 @@
     background: var(--bg);
   }
 
-  .faq-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+  .faq-list {
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
     gap: 2px;
     background: var(--border);
     border: 1px solid var(--border);
@@ -678,7 +680,6 @@
 
   .faq-item {
     background: var(--bg2);
-    padding: 32px 36px;
     transition: background 0.2s;
   }
   .faq-item:hover { background: var(--bg3); }
@@ -688,14 +689,39 @@
     font-size: 15px;
     font-weight: 700;
     color: var(--white);
-    margin-bottom: 10px;
     line-height: 1.4;
+    padding: 24px 36px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    user-select: none;
+  }
+
+  .faq-q::after {
+    content: '+';
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--muted);
+    flex-shrink: 0;
+    transition: transform 0.25s;
+  }
+
+  .faq-item.open .faq-q::after {
+    content: '\2212';
   }
 
   .faq-a {
     font-size: 13.5px;
     color: var(--muted);
     line-height: 1.7;
+    padding: 0 36px 24px;
+    display: none;
+  }
+
+  .faq-item.open .faq-a {
+    display: block;
   }
 
   /* CTA BANNER */
@@ -820,7 +846,7 @@
     section { padding: 72px 24px; }
     .hero { padding: 100px 24px 60px; }
     .hero h1 { font-size: 40px; letter-spacing: -1.5px; }
-    .steps-container, .tiers-grid, .team-grid, .faq-grid, .retainers-grid, .pain-grid { grid-template-columns: 1fr; }
+    .steps-container, .tiers-grid, .team-grid, .retainers-grid, .pain-grid { grid-template-columns: 1fr; }
     .eval-card { grid-template-columns: 1fr; gap: 20px; }
     .eval-price-block { border-right: none; padding-right: 0; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
     .eval-body { padding: 0; }
@@ -1058,29 +1084,29 @@
     <div class="section-label">FAQ</div>
     <h2 class="section-title">Common questions.</h2>
   </div>
-  <div class="faq-grid">
+  <div class="faq-list">
     <div class="faq-item">
-      <div class="faq-q">What size winery is this for?</div>
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What size winery is this for?</div>
       <div class="faq-a">Any size. We scope every engagement around what you actually need &mdash; the difference is your priorities, not your production volume.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">What do I need to prepare before you arrive?</div>
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What do I need to prepare before you arrive?</div>
       <div class="faq-a">Very little. After booking, we'll send a short intake form asking about your current programs and top priorities. That's it &mdash; we come prepared so you don't have to do homework.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">How does the 1-hour evaluation work?</div>
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">How does the 1-hour evaluation work?</div>
       <div class="faq-a">One focused hour &mdash; on-site or remote &mdash; where we review your current setup and tell you exactly what we'd fix first. You walk away with clear next steps whether or not you move forward. The $400 applies in full toward any engagement.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">What's included in the check-in calls?</div>
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What's included in the check-in calls?</div>
       <div class="faq-a">Six 30-minute calls over six months, included with the Software Essentials engagement. We review how the playbook is performing, track changes, and adjust recommendations as your operation evolves.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">Where do you work?</div>
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Where do you work?</div>
       <div class="faq-a">We serve wineries across North America. Travel logistics and any pricing adjustments are discussed as part of the booking process.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">What are your payment terms?</div>
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What are your payment terms?</div>
       <div class="faq-a">Full payment due at playbook delivery. Payment plans available: 50% day of, 50% at delivery &mdash; or 25% at signing, 25% day of, 25% at delivery, 25% at your 2-month check-in. We accept cash, check, Venmo, and Zelle.</div>
     </div>
   </div>
