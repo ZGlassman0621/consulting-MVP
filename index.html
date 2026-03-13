@@ -630,25 +630,29 @@
   }
   .retainer-card:hover { border-color: rgba(77,159,255,0.25); }
 
-  .retainer-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 12px;
-  }
-
   .retainer-name {
     font-family: 'Outfit', sans-serif;
     font-size: 16px;
     font-weight: 700;
     color: var(--white);
+    margin-bottom: 12px;
   }
 
   .retainer-price {
     font-family: 'Outfit', sans-serif;
-    font-size: 18px;
+    font-size: 48px;
     font-weight: 800;
     color: var(--blue);
+    letter-spacing: -2px;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .retainer-price-label {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 24px;
+    font-style: italic;
   }
 
   .retainer-desc {
@@ -942,8 +946,8 @@
 <!-- START HERE -->
 <section class="eval-section">
   <div class="section-header centered">
-    <div class="section-label">Start here</div>
-    <h2 class="section-title">Not sure where to start?<br>Start here.</h2>
+    <div class="section-label">First step</div>
+    <h2 class="section-title">Not sure how to begin?<br>Start here.</h2>
   </div>
   <div class="eval-card">
     <div class="eval-price-block">
@@ -971,7 +975,7 @@
     <div class="tier-card">
       <div class="tier-name">Software Essentials</div>
       <div class="tier-price">$2,500</div>
-      <div class="tier-price-note">1-day on-site audit of every program your team uses to run the business.</div>
+      <div class="tier-price-note">One-time fee &middot; 1-day on-site audit of every program your team uses to run the business.</div>
       <div class="tier-divider"></div>
       <ul class="tier-includes">
         <li>Full software inventory &amp; cost mapping</li>
@@ -981,13 +985,13 @@
         <li>Cohort Analytics Workbook</li>
         <li>6 monthly 30-min check-in calls</li>
       </ul>
-      <a href="https://calendly.com/zach-winecoanalytics" class="tier-btn tier-btn-primary">Book Software Essentials</a>
+      <a href="https://calendly.com/zach-winecoanalytics" class="tier-btn tier-btn-primary">Book Evaluation</a>
       <div class="tier-addons"><strong>Add-ons:</strong> New software procurement &middot; Migration support &middot; Staff tech training</div>
     </div>
     <div class="tier-card">
       <div class="tier-name">Operational Efficiency</div>
       <div class="tier-price">$3,500</div>
-      <div class="tier-price-note">1-day on-site operational assessment of your guest journey, team, and revenue potential.</div>
+      <div class="tier-price-note">One-time fee &middot; 1-day on-site operational assessment of your guest journey, team, and revenue potential.</div>
       <div class="tier-divider"></div>
       <ul class="tier-includes">
         <li>Guest journey &amp; conversion analysis</li>
@@ -997,13 +1001,13 @@
         <li>Revenue initiative identification</li>
         <li>Cohort Analytics Playbook</li>
       </ul>
-      <a href="https://calendly.com/zach-winecoanalytics" class="tier-btn tier-btn-primary">Book Operational Efficiency</a>
+      <a href="https://calendly.com/zach-winecoanalytics" class="tier-btn tier-btn-primary">Book Evaluation</a>
       <div class="tier-addons"><strong>Add-ons:</strong> Event management &middot; Wedding consulting &middot; Brand &amp; social strategy</div>
     </div>
     <div class="tier-card">
       <div class="tier-name">Software &amp; Operations</div>
       <div class="tier-price">$5,000</div>
-      <div class="tier-price-note">2-day deep dive combining both tracks. The complete picture.</div>
+      <div class="tier-price-note">One-time fee &middot; 2-day deep dive combining both tracks. The complete picture.</div>
       <div class="tier-divider"></div>
       <ul class="tier-includes">
         <li>Everything in Software Essentials</li>
@@ -1013,7 +1017,7 @@
         <li>90-day implementation roadmap</li>
         <li>Priority cross-track recommendations</li>
       </ul>
-      <a href="https://calendly.com/zach-winecoanalytics" class="tier-btn tier-btn-primary">Book Software &amp; Operations</a>
+      <a href="https://calendly.com/zach-winecoanalytics" class="tier-btn tier-btn-primary">Book Evaluation</a>
       <div class="tier-addons"><strong>Add-ons:</strong> All add-ons from both tracks available</div>
     </div>
   </div>
@@ -1028,24 +1032,21 @@
   </div>
   <div class="retainers-grid">
     <div class="retainer-card">
-      <div class="retainer-header">
-        <div class="retainer-name">Software Retainer</div>
-        <div class="retainer-price">$750/mo</div>
-      </div>
+      <div class="retainer-name">Software Retainer</div>
+      <div class="retainer-price">$750</div>
+      <div class="retainer-price-label">per month</div>
       <p class="retainer-desc">Monthly check-ins, workbook updates, vendor management, and on-call support.</p>
     </div>
     <div class="retainer-card">
-      <div class="retainer-header">
-        <div class="retainer-name">Operations Retainer</div>
-        <div class="retainer-price">$1,000/mo</div>
-      </div>
+      <div class="retainer-name">Operations Retainer</div>
+      <div class="retainer-price">$1,000</div>
+      <div class="retainer-price-label">per month</div>
       <p class="retainer-desc">Monthly guidance, Playbook updates, seasonal planning, and wine club management.</p>
     </div>
     <div class="retainer-card">
-      <div class="retainer-header">
-        <div class="retainer-name">Software &amp; Operations</div>
-        <div class="retainer-price">$1,400/mo</div>
-      </div>
+      <div class="retainer-name">Software &amp; Operations</div>
+      <div class="retainer-price">$1,400</div>
+      <div class="retainer-price-label">per month</div>
       <p class="retainer-desc">Full ongoing support across both tracks, both deliverables kept current.</p>
     </div>
   </div>
