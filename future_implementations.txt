@@ -1,0 +1,16 @@
+COHORT ANALYTICS — Future Implementations
+==========================================
+
+1. Course Catalog Page
+   - The "Optimizing" tier quiz result routes to a self-guided course catalog
+   - Placeholder link currently in quiz.html results page
+   - Build out when courses are ready
+
+2. Free 15-Minute Software Systems Audit
+   - Secondary CTA on quiz results page: "Not ready yet? Try our free 15-minute software systems audit."
+   - Needs an intake form and landing page
+   - Placeholder link currently in quiz.html results page
+
+3. Google Sheets Quiz Logging
+   - Quiz is built to POST results to a Google Sheet via webhook
+   - Need to: create the Sheet, deploy the Apps Script (code is in quiz.html comments), and paste the deployed URL into the SHEETS_WEBHOOK_URL constant in quiz.html

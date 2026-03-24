@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Winery Operations Quiz — Cohort Analytics</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X42PDQJJ44"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-X42PDQJJ44');
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0a0a0a;
+    --bg2: #111111;
+    --bg3: #161616;
+    --blue: #4D9FFF;
+    --blue-dim: rgba(77,159,255,0.12);
+    --pink: #FF3B8B;
+    --pink-dim: rgba(255,59,139,0.1);
+    --white: #ffffff;
+    --off-white: #e8e4de;
+    --muted: #888880;
+    --border: rgba(255,255,255,0.08);
+    --border-bright: rgba(77,159,255,0.3);
+    --green: #34D399;
+    --green-dim: rgba(52,211,153,0.12);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg);
+    color: var(--off-white);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 68px;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--white);
+    text-decoration: none;
+    letter-spacing: -0.3px;
+  }
+  .nav-logo span { color: var(--blue); }
+
+  .nav-back {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-back:hover { color: var(--white); }
+
+  /* QUIZ CONTAINER */
+  .quiz-wrap {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 24px 60px;
+    position: relative;
+  }
+
+  .quiz-glow {
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(77,159,255,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .quiz-glow-2 {
+    position: absolute;
+    bottom: -100px; left: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(255,59,139,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .quiz-card {
+    width: 100%;
+    max-width: 680px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* START SCREEN */
+  .start-screen {
+    text-align: center;
+  }
+
+  .start-eyebrow {
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 16px;
+  }
+
+  .start-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -1.5px;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .start-desc {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 520px;
+    margin: 0 auto 40px;
+    line-height: 1.7;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--blue);
+    color: var(--bg);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 14px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary:hover {
+    background: #6db3ff;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 30px rgba(77,159,255,0.3);
+  }
+
+  /* PROGRESS BAR */
+  .progress-wrap {
+    margin-bottom: 40px;
+  }
+
+  .progress-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+  }
+
+  .progress-bar {
+    width: 100%;
+    height: 4px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--blue), var(--pink));
+    border-radius: 4px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  /* QUESTION */
+  .question-screen { display: none; }
+  .question-screen.active { display: block; }
+
+  .q-category {
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 12px;
+  }
+
+  .q-text {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(20px, 3.5vw, 28px);
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.5px;
+    line-height: 1.25;
+    margin-bottom: 32px;
+  }
+
+  .q-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .q-option {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 22px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px;
+    color: var(--off-white);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    line-height: 1.5;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .q-option:hover {
+    border-color: rgba(77,159,255,0.4);
+    background: var(--bg3);
+  }
+  .q-option.selected {
+    border-color: var(--blue);
+    background: var(--blue-dim);
+    color: var(--white);
+  }
+  .q-option.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  /* COMMENTARY */
+  .q-commentary {
+    margin-top: 20px;
+    padding: 18px 22px;
+    background: var(--bg3);
+    border-left: 3px solid var(--blue);
+    border-radius: 0 8px 8px 0;
+    font-size: 14px;
+    color: var(--off-white);
+    line-height: 1.7;
+    opacity: 0;
+    transform: translateY(8px);
+    animation: fadeInComment 0.4s ease forwards;
+  }
+
+  @keyframes fadeInComment {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* NEXT BUTTON */
+  .q-next-wrap {
+    margin-top: 28px;
+    display: flex;
+    justify-content: flex-end;
+    opacity: 0;
+    transform: translateY(8px);
+    animation: fadeInComment 0.3s ease 0.15s forwards;
+  }
+
+  .btn-next {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--blue);
+    color: var(--bg);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-next:hover {
+    background: #6db3ff;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 30px rgba(77,159,255,0.3);
+  }
+
+  /* RESULTS */
+  .results-screen { display: none; text-align: center; }
+  .results-screen.active { display: block; }
+
+  .result-score-wrap {
+    margin-bottom: 36px;
+  }
+
+  .result-percentage {
+    font-family: 'Outfit', sans-serif;
+    font-size: 72px;
+    font-weight: 800;
+    letter-spacing: -3px;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .result-tier-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .result-score-detail {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  /* Tier colors */
+  .tier-optimizing .result-percentage { color: var(--green); }
+  .tier-optimizing .result-tier-label { color: var(--green); }
+  .tier-evaluation .result-percentage { color: var(--blue); }
+  .tier-evaluation .result-tier-label { color: var(--blue); }
+  .tier-engagement .result-percentage { color: var(--pink); }
+  .tier-engagement .result-tier-label { color: var(--pink); }
+
+  .result-message {
+    font-size: 16px;
+    color: var(--off-white);
+    max-width: 520px;
+    margin: 0 auto 40px;
+    line-height: 1.7;
+  }
+
+  /* Category breakdown */
+  .result-breakdown {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    max-width: 600px;
+    margin: 0 auto 44px;
+  }
+
+  .breakdown-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px 16px;
+    text-align: center;
+  }
+
+  .breakdown-score {
+    font-family: 'Outfit', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -1px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .breakdown-max {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .breakdown-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* Score bar visual */
+  .breakdown-bar-wrap {
+    width: 100%;
+    height: 4px;
+    background: var(--border);
+    border-radius: 4px;
+    margin: 10px 0;
+    overflow: hidden;
+  }
+
+  .breakdown-bar {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.6s ease;
+  }
+
+  .breakdown-card:nth-child(1) .breakdown-bar { background: var(--blue); }
+  .breakdown-card:nth-child(2) .breakdown-bar { background: var(--pink); }
+  .breakdown-card:nth-child(3) .breakdown-bar { background: var(--green); }
+
+  /* CTAs */
+  .result-ctas {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--muted);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover {
+    border-color: rgba(77,159,255,0.3);
+    color: var(--white);
+  }
+
+  .btn-pink {
+    background: rgba(255,59,139,0.12);
+    color: var(--pink);
+    border: 1px solid rgba(255,59,139,0.3);
+  }
+  .btn-pink:hover {
+    background: rgba(255,59,139,0.2);
+    border-color: var(--pink);
+  }
+
+  .btn-green {
+    background: var(--green-dim);
+    color: var(--green);
+    border: 1px solid rgba(52,211,153,0.3);
+  }
+  .btn-green:hover {
+    background: rgba(52,211,153,0.2);
+    border-color: var(--green);
+  }
+
+  /* Email capture */
+  .email-capture {
+    max-width: 480px;
+    margin: 0 auto;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+  }
+
+  .email-capture p {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 16px;
+    line-height: 1.6;
+  }
+
+  .email-form {
+    display: flex;
+    gap: 10px;
+  }
+
+  .email-input {
+    flex: 1;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    color: var(--off-white);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .email-input:focus { border-color: var(--border-bright); }
+  .email-input::placeholder { color: var(--muted); }
+
+  .email-submit {
+    background: var(--blue);
+    color: var(--bg);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .email-submit:hover { background: #6db3ff; }
+
+  .email-success {
+    font-size: 13px;
+    color: var(--green);
+    margin-top: 12px;
+    display: none;
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in {
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; }
+    .quiz-wrap { padding: 88px 20px 40px; }
+    .result-breakdown { grid-template-columns: 1fr; max-width: 320px; }
+    .email-form { flex-direction: column; }
+  }
+
+  @media (max-width: 480px) {
+    .q-text { font-size: 20px; }
+    .result-percentage { font-size: 56px; }
+    .start-title { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Cohort<span> Analytics</span></a>
+  <a href="index.html" class="nav-back">&larr; Back to site</a>
+</nav>
+
+<div class="quiz-wrap">
+  <div class="quiz-glow"></div>
+  <div class="quiz-glow-2"></div>
+
+  <div class="quiz-card">
+
+    <!-- START SCREEN -->
+    <div id="startScreen" class="start-screen fade-in">
+      <div class="start-eyebrow">Self-Assessment</div>
+      <h1 class="start-title">How healthy is your winery's operation?</h1>
+      <p class="start-desc">10 questions. 3 minutes. Find out where your software systems and operations stand — and what to focus on next.</p>
+      <button class="btn-primary" id="startBtn">Start Quiz &rarr;</button>
+    </div>
+
+    <!-- QUESTION SCREEN -->
+    <div id="questionScreen" class="question-screen">
+      <div class="progress-wrap">
+        <div class="progress-label">Question <span id="qNum">1</span> of 10</div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+      <div id="qCategory" class="q-category"></div>
+      <div id="qText" class="q-text"></div>
+      <div id="qOptions" class="q-options"></div>
+      <div id="qCommentary"></div>
+      <div id="qNextWrap"></div>
+    </div>
+
+    <!-- RESULTS SCREEN -->
+    <div id="resultsScreen" class="results-screen">
+      <div class="result-score-wrap" id="resultScoreWrap">
+        <div class="result-percentage" id="resultPercentage"></div>
+        <div class="result-tier-label" id="resultTierLabel"></div>
+        <div class="result-score-detail" id="resultScoreDetail"></div>
+      </div>
+      <p class="result-message" id="resultMessage"></p>
+      <div class="result-breakdown" id="resultBreakdown"></div>
+      <div class="result-ctas" id="resultCtas"></div>
+      <div class="email-capture">
+        <p>Want a copy of your results? Enter your email and we'll send them over.</p>
+        <form class="email-form" id="emailForm">
+          <input type="email" class="email-input" id="emailInput" placeholder="you@yourwinery.com" required>
+          <button type="submit" class="email-submit">Send Results</button>
+        </form>
+        <div class="email-success" id="emailSuccess">Sent! Check your inbox.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ============================================================
+// Google Sheets Webhook — paste this URL after setting up your
+// Google Apps Script web app (see comment block at bottom).
+// ============================================================
+const SHEETS_WEBHOOK_URL = '';
+
+// Session ID
+function generateUUID() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    const r = Math.random() * 16 | 0;
+    return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+  });
+}
+
+const SESSION_ID = generateUUID();
+
+// ============================================================
+// QUIZ DATA
+// ============================================================
+const questions = [
+  {
+    id: 1,
+    category: 'Software Systems Health',
+    text: 'How many different software programs does your team use to run the business?',
+    subtext: '(POS, wine club, reservations, email, accounting, inventory, compliance, etc.)',
+    options: [
+      { label: '1\u20132', score: 5, commentary: 'Lean and efficient. Let\u2019s make sure those tools are pulling their weight.' },
+      { label: '3\u20134', score: 3, commentary: 'That\u2019s typical. The question is whether they\u2019re talking to each other.' },
+      { label: '5\u20136', score: 2, commentary: 'That\u2019s a lot of moving parts. Overlap and redundancy tend to hide in stacks this size.' },
+      { label: '7+', score: 1, commentary: 'You\u2019re not alone \u2014 but every extra system is a potential leak in time and money.' },
+      { label: 'I\u2019m not sure', score: 0, commentary: 'That\u2019s a great reason to take this quiz. We\u2019ll help you start building that picture.' }
+    ]
+  },
+  {
+    id: 2,
+    category: 'Software Systems Health',
+    text: 'Do any of your software systems share data automatically, or does your team re-enter information between them?',
+    options: [
+      { label: 'Everything syncs automatically', score: 5, commentary: 'That\u2019s rare and valuable. You\u2019re ahead of most wineries we talk to.' },
+      { label: 'Most things sync', score: 4, commentary: 'Good foundation. The gaps that remain are usually the ones costing you hours.' },
+      { label: 'Some manual entry', score: 2, commentary: 'Every manual handoff is a place where data gets lost or duplicated.' },
+      { label: 'Mostly manual', score: 1, commentary: 'Your team is spending hours doing what software should handle for them.' },
+      { label: 'I don\u2019t know', score: 0, commentary: 'That\u2019s a great reason to take this quiz. We\u2019ll help you start building that picture.' }
+    ]
+  },
+  {
+    id: 3,
+    category: 'Software Systems Health',
+    text: 'In the last 12 months, have you evaluated whether any of your software subscriptions overlap or go unused?',
+    options: [
+      { label: 'Yes, we reviewed everything', score: 5, commentary: 'Smart. Most wineries never look under the hood.' },
+      { label: 'We looked at a few', score: 3, commentary: 'A good start. The ones you haven\u2019t looked at are usually the ones costing you.' },
+      { label: 'No', score: 1, commentary: 'You\u2019d be surprised what\u2019s sitting on auto-renew that nobody on your team actually uses.' },
+      { label: 'I wouldn\u2019t know where to start', score: 0, commentary: 'That\u2019s exactly what we help with. There\u2019s almost always money sitting on the table here.' }
+    ]
+  },
+  {
+    id: 4,
+    category: 'Operations Health',
+    text: 'What percentage of tasting room guests join your wine club before they leave?',
+    options: [
+      { label: 'Over 20%', score: 5, commentary: 'That\u2019s strong. Let\u2019s see if the rest of your operation matches.' },
+      { label: '10\u201320%', score: 3, commentary: 'Solid, but there\u2019s room to grow \u2014 the difference between 15% and 25% is transformative over a year.' },
+      { label: 'Under 10%', score: 2, commentary: 'Most of your guests are walking out the door without a reason to come back.' },
+      { label: 'We don\u2019t track this', score: null, commentary: 'No worries \u2014 not every winery tracks this, and there are plenty of good reasons why. We\u2019ll factor that in.' }
+    ]
+  },
+  {
+    id: 5,
+    category: 'Operations Health',
+    text: 'Does your team have a defined process for when and how to pitch wine club membership during a tasting?',
+    options: [
+      { label: 'Yes, trained and consistent', score: 5, commentary: 'That consistency is what separates high-converting tasting rooms from the rest.' },
+      { label: 'Loosely defined', score: 3, commentary: 'Some structure is better than none, but loose processes lead to inconsistent results.' },
+      { label: 'Depends on the person', score: 1, commentary: 'That\u2019s common, and it usually means there\u2019s an opportunity to build a system that works for everyone on your team \u2014 not just the naturals.' },
+      { label: 'No', score: 0, commentary: 'A lot of wineries are in the same boat. A simple framework can make a big difference here, and it\u2019s one of the easiest wins to implement.' }
+    ]
+  },
+  {
+    id: 6,
+    category: 'Operations Health',
+    text: 'What does your annual wine club churn rate look like?',
+    options: [
+      { label: 'Under 10%', score: 5, commentary: 'Excellent retention. Your members see real value in staying.' },
+      { label: '10\u201320%', score: 3, commentary: 'That\u2019s industry average \u2014 there\u2019s a clear path to doing better.' },
+      { label: '20\u201350%', score: 1, commentary: 'That\u2019s a tough number, but churn is one of the most fixable problems in the wine club business.' },
+      { label: 'Over 50%', score: 0, commentary: 'There\u2019s almost certainly a structural issue driving this \u2014 and structural issues are very solvable.' },
+      { label: 'We don\u2019t track churn', score: null, commentary: 'Totally fine. Not everyone tracks this, and that doesn\u2019t mean anything is wrong.' }
+    ]
+  },
+  {
+    id: 7,
+    category: 'Operations Health',
+    text: 'Do your events (tastings, dinners, live music, etc.) convert attendees into wine club members or repeat visitors?',
+    options: [
+      { label: 'Yes, we track and optimize this', score: 5, commentary: 'You\u2019re treating events like the revenue tool they are.' },
+      { label: 'Sometimes', score: 3, commentary: 'Events that fill seats but don\u2019t build loyalty are expensive marketing with no payoff.' },
+      { label: 'We don\u2019t track it', score: 1, commentary: 'You might be running great events that aren\u2019t doing anything for your bottom line \u2014 and you\u2019d never know.' },
+      { label: 'We don\u2019t run events', score: 0, commentary: 'Events are one of the most effective conversion tools a tasting room has. There may be an opportunity here.' }
+    ]
+  },
+  {
+    id: 8,
+    category: 'Business Awareness',
+    text: 'Has anyone outside your team ever formally reviewed your winery\u2019s software systems or operations?',
+    options: [
+      { label: 'Yes, within the last year', score: 5, commentary: 'Good. Outside perspective keeps blind spots from becoming expensive habits.' },
+      { label: 'Yes, but more than a year ago', score: 3, commentary: 'A lot changes in a year \u2014 especially in software. It might be time for a fresh look.' },
+      { label: 'No, never', score: 1, commentary: 'That\u2019s the norm in this industry. Most wineries have never had the opportunity \u2014 which means there\u2019s likely a lot of low-hanging fruit waiting.' }
+    ]
+  },
+  {
+    id: 9,
+    category: 'Business Awareness',
+    text: 'When you identify a problem in your operation, how quickly does your team typically implement a fix?',
+    options: [
+      { label: 'Within a week', score: 5, commentary: 'That speed is a competitive advantage.' },
+      { label: 'Within a month', score: 3, commentary: 'Solid. Most operational fixes get better results the sooner they\u2019re implemented.' },
+      { label: 'It takes a few months', score: 2, commentary: 'You\u2019re not alone \u2014 competing priorities make it hard to move fast.' },
+      { label: 'Things tend to stay the way they are', score: 0, commentary: 'That\u2019s really common in small teams. Sometimes it just takes an outside perspective to break the logjam.' }
+    ]
+  },
+  {
+    id: 10,
+    category: 'Business Awareness',
+    text: 'How would you describe your winery\u2019s overall operational health right now?',
+    options: [
+      { label: 'Running smoothly, just looking to optimize', score: 5, commentary: 'Great position to be in. Fine-tuning a healthy operation is where the biggest gains hide.' },
+      { label: 'Good but I know there are gaps', score: 3, commentary: 'Knowing you have gaps is the first step. The next step is figuring out which ones matter most.' },
+      { label: 'Struggling in some areas', score: 2, commentary: 'That\u2019s more common than people admit. The good news is that the biggest problems are usually the most fixable.' },
+      { label: 'I don\u2019t have a clear picture', score: 0, commentary: 'That\u2019s more common than you\u2019d think, and it\u2019s one of the most valuable things to fix \u2014 because once you can see the full picture, the priorities become obvious.' }
+    ]
+  }
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let currentQ = 0;
+let answers = []; // { questionId, answerText, score, isNull }
+
+// ============================================================
+// DOM REFS
+// ============================================================
+const startScreen = document.getElementById('startScreen');
+const startBtn = document.getElementById('startBtn');
+const questionScreen = document.getElementById('questionScreen');
+const resultsScreen = document.getElementById('resultsScreen');
+const qNum = document.getElementById('qNum');
+const progressFill = document.getElementById('progressFill');
+const qCategory = document.getElementById('qCategory');
+const qText = document.getElementById('qText');
+const qOptions = document.getElementById('qOptions');
+const qCommentary = document.getElementById('qCommentary');
+const qNextWrap = document.getElementById('qNextWrap');
+
+// ============================================================
+// START
+// ============================================================
+startBtn.addEventListener('click', function() {
+  gtag('event', 'quiz_start', { session_id: SESSION_ID });
+  startScreen.style.display = 'none';
+  questionScreen.classList.add('active');
+  renderQuestion();
+});
+
+// ============================================================
+// RENDER QUESTION
+// ============================================================
+function renderQuestion() {
+  const q = questions[currentQ];
+  qNum.textContent = currentQ + 1;
+  progressFill.style.width = ((currentQ) / 10 * 100) + '%';
+  qCategory.textContent = q.category;
+
+  let fullText = q.text;
+  if (q.subtext) fullText += '<br><span style="font-size:14px;font-weight:400;color:var(--muted);line-height:1.6;">' + q.subtext + '</span>';
+  qText.innerHTML = fullText;
+
+  qOptions.innerHTML = '';
+  qCommentary.innerHTML = '';
+  qNextWrap.innerHTML = '';
+
+  q.options.forEach(function(opt, idx) {
+    const btn = document.createElement('button');
+    btn.className = 'q-option';
+    btn.textContent = opt.label;
+    btn.setAttribute('data-idx', idx);
+    btn.addEventListener('click', function() { selectAnswer(idx); });
+    qOptions.appendChild(btn);
+  });
+
+  // Scroll to top of quiz
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============================================================
+// SELECT ANSWER
+// ============================================================
+function selectAnswer(idx) {
+  const q = questions[currentQ];
+  const opt = q.options[idx];
+
+  // Disable all options
+  const allBtns = qOptions.querySelectorAll('.q-option');
+  allBtns.forEach(function(btn, i) {
+    if (i === idx) {
+      btn.classList.add('selected');
+    } else {
+      btn.classList.add('disabled');
+    }
+    btn.style.pointerEvents = 'none';
+  });
+
+  // Store answer
+  const isNull = opt.score === null;
+  answers.push({
+    questionId: q.id,
+    answerText: opt.label,
+    score: opt.score,
+    isNull: isNull
+  });
+
+  // Fire GA4 event
+  gtag('event', 'quiz_answer', {
+    session_id: SESSION_ID,
+    question_id: q.id,
+    answer_text: opt.label,
+    score: isNull ? 'NULL' : opt.score,
+    is_null: isNull
+  });
+
+  // Show commentary
+  qCommentary.innerHTML = '<div class="q-commentary">' + opt.commentary + '</div>';
+
+  // Show next button
+  const isLast = currentQ === questions.length - 1;
+  qNextWrap.innerHTML = '<div class="q-next-wrap"><button class="btn-next">' +
+    (isLast ? 'See Results' : 'Next') + ' &rarr;</button></div>';
+
+  qNextWrap.querySelector('.btn-next').addEventListener('click', function() {
+    if (isLast) {
+      showResults();
+    } else {
+      currentQ++;
+      renderQuestion();
+    }
+  });
+}
+
+// ============================================================
+// CALCULATE & SHOW RESULTS
+// ============================================================
+function showResults() {
+  questionScreen.classList.remove('active');
+  resultsScreen.classList.add('active');
+
+  // Calculate scores
+  let totalScore = 0;
+  let maxPossible = 0;
+
+  // Category sub-scores
+  let softwareScore = 0, softwareMax = 0;
+  let opsScore = 0, opsMax = 0;
+  let awarenessScore = 0, awarenessMax = 0;
+
+  answers.forEach(function(a) {
+    if (!a.isNull) {
+      totalScore += a.score;
+      maxPossible += 5;
+      if (a.questionId <= 3) {
+        softwareScore += a.score;
+        softwareMax += 5;
+      } else if (a.questionId <= 7) {
+        opsScore += a.score;
+        opsMax += 5;
+      } else {
+        awarenessScore += a.score;
+        awarenessMax += 5;
+      }
+    } else {
+      // NULL: don't count toward score or max
+      if (a.questionId <= 3) {
+        // software — no null options defined but handle anyway
+      } else if (a.questionId <= 7) {
+        // ops — null
+      } else {
+        // awareness — no null options
+      }
+    }
+  });
+
+  const percentage = maxPossible > 0 ? Math.round((totalScore / maxPossible) * 100) : 0;
+
+  // Determine tier
+  let tier, tierLabel, tierMessage, tierClass, ctaLink, ctaBtnClass;
+  if (percentage >= 70) {
+    tier = 'OPTIMIZING';
+    tierLabel = 'Optimizing';
+    tierMessage = 'Your systems are in strong shape. Our self-guided courses can help you fine-tune what\u2019s already working.';
+    tierClass = 'tier-optimizing';
+    ctaLink = '#';
+    ctaBtnClass = 'btn-primary btn-green';
+  } else if (percentage >= 40) {
+    tier = 'EVALUATION-READY';
+    tierLabel = 'Evaluation-Ready';
+    tierMessage = 'You\u2019ve got a solid foundation with clear opportunities. A 1-hour evaluation would identify your top three priorities and give you a roadmap.';
+    tierClass = 'tier-evaluation';
+    ctaLink = 'https://calendly.com/zach-winecoanalytics';
+    ctaBtnClass = 'btn-primary';
+  } else {
+    tier = 'ENGAGEMENT-READY';
+    tierLabel = 'Engagement-Ready';
+    tierMessage = 'There\u2019s real opportunity hiding in your operation. A full engagement would give you the complete picture \u2014 software, operations, or both.';
+    tierClass = 'tier-engagement';
+    ctaLink = 'https://calendly.com/zach-winecoanalytics';
+    ctaBtnClass = 'btn-primary btn-pink';
+  }
+
+  // Fire GA4 complete event
+  gtag('event', 'quiz_complete', {
+    session_id: SESSION_ID,
+    total_score: totalScore,
+    max_possible: maxPossible,
+    percentage: percentage,
+    tier: tier,
+    software_subscore: softwareScore,
+    operations_subscore: opsScore,
+    awareness_subscore: awarenessScore
+  });
+
+  // Render score
+  const scoreWrap = document.getElementById('resultScoreWrap');
+  scoreWrap.className = 'result-score-wrap ' + tierClass;
+  document.getElementById('resultPercentage').textContent = percentage + '%';
+  document.getElementById('resultTierLabel').textContent = tierLabel;
+  document.getElementById('resultScoreDetail').textContent = totalScore + ' / ' + maxPossible + ' points';
+
+  // Message
+  document.getElementById('resultMessage').textContent = tierMessage;
+
+  // Breakdown
+  const breakdownEl = document.getElementById('resultBreakdown');
+  const categories = [
+    { label: 'Software Systems', score: softwareScore, max: softwareMax },
+    { label: 'Operations', score: opsScore, max: opsMax },
+    { label: 'Business Awareness', score: awarenessScore, max: awarenessMax }
+  ];
+
+  breakdownEl.innerHTML = categories.map(function(cat) {
+    const pct = cat.max > 0 ? Math.round((cat.score / cat.max) * 100) : 0;
+    return '<div class="breakdown-card">' +
+      '<div class="breakdown-score">' + cat.score + '</div>' +
+      '<div class="breakdown-max">out of ' + cat.max + '</div>' +
+      '<div class="breakdown-bar-wrap"><div class="breakdown-bar" style="width:' + pct + '%"></div></div>' +
+      '<div class="breakdown-label">' + cat.label + '</div>' +
+    '</div>';
+  }).join('');
+
+  // CTAs
+  const ctasEl = document.getElementById('resultCtas');
+  let primaryLabel;
+  if (tier === 'OPTIMIZING') {
+    primaryLabel = 'Browse Self-Guided Courses';
+  } else if (tier === 'EVALUATION-READY') {
+    primaryLabel = 'Book a 1-Hour Evaluation \u2014 $400';
+  } else {
+    primaryLabel = 'Book a Full Engagement Consultation';
+  }
+
+  ctasEl.innerHTML =
+    '<a href="' + ctaLink + '" class="' + ctaBtnClass + '" id="primaryCta" onclick="handleCtaClick(\'primary\')">' + primaryLabel + ' &rarr;</a>' +
+    '<a href="#" class="btn-secondary" id="secondaryCta" onclick="handleCtaClick(\'secondary\')">Not ready yet? Try our free 15-minute software systems audit &rarr;</a>';
+
+  // Send to Google Sheets
+  sendToSheets(totalScore, maxPossible, percentage, tier, softwareScore, opsScore, awarenessScore);
+
+  // Update progress bar to full
+  progressFill.style.width = '100%';
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============================================================
+// CTA CLICK HANDLER
+// ============================================================
+function handleCtaClick(ctaType) {
+  const percentage = parseInt(document.getElementById('resultPercentage').textContent);
+  let tier;
+  if (percentage >= 70) tier = 'OPTIMIZING';
+  else if (percentage >= 40) tier = 'EVALUATION-READY';
+  else tier = 'ENGAGEMENT-READY';
+
+  gtag('event', 'quiz_cta_click', {
+    session_id: SESSION_ID,
+    tier: tier,
+    cta_type: ctaType
+  });
+}
+
+// ============================================================
+// EMAIL CAPTURE
+// ============================================================
+document.getElementById('emailForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const email = document.getElementById('emailInput').value;
+  const percentage = parseInt(document.getElementById('resultPercentage').textContent);
+  let tier;
+  if (percentage >= 70) tier = 'OPTIMIZING';
+  else if (percentage >= 40) tier = 'EVALUATION-READY';
+  else tier = 'ENGAGEMENT-READY';
+
+  gtag('event', 'quiz_email_capture', {
+    session_id: SESSION_ID,
+    email: email,
+    tier: tier
+  });
+
+  // Send email to sheets too
+  if (SHEETS_WEBHOOK_URL) {
+    fetch(SHEETS_WEBHOOK_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'email_capture',
+        session_id: SESSION_ID,
+        email: email,
+        tier: tier
+      })
+    }).catch(function() {});
+  }
+
+  document.getElementById('emailSuccess').style.display = 'block';
+  document.getElementById('emailForm').style.display = 'none';
+});
+
+// ============================================================
+// GOOGLE SHEETS INTEGRATION
+// ============================================================
+function sendToSheets(totalScore, maxPossible, percentage, tier, softwareScore, opsScore, awarenessScore) {
+  if (!SHEETS_WEBHOOK_URL) return;
+
+  const data = {
+    action: 'quiz_complete',
+    timestamp: new Date().toISOString(),
+    session_id: SESSION_ID,
+    answers: answers.map(function(a) {
+      return {
+        question_id: a.questionId,
+        answer_text: a.answerText,
+        score: a.isNull ? 'NULL' : a.score
+      };
+    }),
+    total_score: totalScore,
+    max_possible: maxPossible,
+    percentage: percentage,
+    tier: tier,
+    software_subscore: softwareScore,
+    operations_subscore: opsScore,
+    awareness_subscore: awarenessScore,
+    email: '',
+    cta_clicked: ''
+  };
+
+  fetch(SHEETS_WEBHOOK_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  }).catch(function(err) {
+    console.warn('Sheets webhook failed:', err);
+  });
+}
+
+/*
+============================================================
+GOOGLE APPS SCRIPT — paste this into your Google Sheet
+(Extensions > Apps Script), then deploy as a web app and
+copy the URL into SHEETS_WEBHOOK_URL above.
+============================================================
+
+function doPost(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var data = JSON.parse(e.postData.contents);
+
+  if (data.action === 'email_capture') {
+    // Find the row with this session_id and update email
+    var rows = sheet.getDataRange().getValues();
+    for (var i = 1; i < rows.length; i++) {
+      if (rows[i][1] === data.session_id) {
+        sheet.getRange(i + 1, 16).setValue(data.email); // Column P = Email
+        break;
+      }
+    }
+    return ContentService.createTextOutput('OK');
+  }
+
+  // Quiz complete — write a new row
+  // Columns: A=Timestamp, B=SessionID, C-L=Q1-Q10 Answers, M-V=Q1-Q10 Scores,
+  //          W=TotalScore, X=MaxPossible, Y=Percentage, Z=Tier,
+  //          AA=SoftwareSubscore, AB=OpsSubscore, AC=AwarenessSubscore,
+  //          AD=Email, AE=CTAClicked
+
+  var row = [
+    data.timestamp,
+    data.session_id
+  ];
+
+  // Answers (text)
+  for (var i = 0; i < 10; i++) {
+    row.push(data.answers[i] ? data.answers[i].answer_text : '');
+  }
+
+  // Scores
+  for (var i = 0; i < 10; i++) {
+    row.push(data.answers[i] ? data.answers[i].score : '');
+  }
+
+  row.push(data.total_score);
+  row.push(data.max_possible);
+  row.push(data.percentage);
+  row.push(data.tier);
+  row.push(data.software_subscore);
+  row.push(data.operations_subscore);
+  row.push(data.awareness_subscore);
+  row.push(data.email || '');
+  row.push(data.cta_clicked || '');
+
+  sheet.appendRow(row);
+
+  return ContentService.createTextOutput('OK');
+}
+
+// Set up headers on first run:
+function setupHeaders() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var headers = [
+    'Timestamp', 'Session ID',
+    'Q1 Answer', 'Q2 Answer', 'Q3 Answer', 'Q4 Answer', 'Q5 Answer',
+    'Q6 Answer', 'Q7 Answer', 'Q8 Answer', 'Q9 Answer', 'Q10 Answer',
+    'Q1 Score', 'Q2 Score', 'Q3 Score', 'Q4 Score', 'Q5 Score',
+    'Q6 Score', 'Q7 Score', 'Q8 Score', 'Q9 Score', 'Q10 Score',
+    'Total Score', 'Max Possible', 'Percentage', 'Tier',
+    'Software Subscore', 'Ops Subscore', 'Awareness Subscore',
+    'Email', 'CTA Clicked'
+  ];
+  sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+}
+============================================================
+*/
+</script>
+</body>
+</html>
