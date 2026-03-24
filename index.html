@@ -875,7 +875,7 @@
     <li><a href="#tiers">Services</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#faq">FAQ</a></li>
-    <li><a href="https://calendly.com/zach-winecoanalytics" class="nav-cta">Book Evaluation &mdash; $400</a></li>
+    <li><a href="https://calendly.com/zach-winecoanalytics" class="nav-cta" onclick="gtag('event','cta_click',{cta_location:'nav'})">Book Evaluation &mdash; $400</a></li>
   </ul>
 </nav>
 
@@ -888,7 +888,7 @@
   <h1>Your winery keeps getting better.<br><span class="accent-pink">Let's find what hasn't caught up yet.</span></h1>
   <p class="hero-sub">Your winery deserves a second set of eyes on the operation. We work alongside your team to find the parts of your setup that haven't kept pace &mdash; your software, your guest experience, your revenue strategy &mdash; and hand you a clear plan to bring them forward.</p>
   <div class="hero-actions">
-    <a href="https://calendly.com/zach-winecoanalytics" class="btn-primary">Book a 1-Hour Evaluation &mdash; $400 &rarr;</a>
+    <a href="https://calendly.com/zach-winecoanalytics" class="btn-primary" onclick="gtag('event','cta_click',{cta_location:'hero'})">Book a 1-Hour Evaluation &mdash; $400 &rarr;</a>
   </div>
 </section>
 
@@ -993,7 +993,7 @@
       <strong>1-Hour Evaluation</strong>
       <p>One hour &mdash; on-site or remote. We look at your software, your operations, or both, and tell you what we'd fix first. The $400 applies in full toward any engagement if you move forward.</p>
     </div>
-    <a href="https://calendly.com/zach-winecoanalytics" class="eval-btn">Book Now &rarr;</a>
+    <a href="https://calendly.com/zach-winecoanalytics" class="eval-btn" onclick="gtag('event','cta_click',{cta_location:'start_here'})">Book Now &rarr;</a>
   </div>
 </section>
 
@@ -1019,7 +1019,7 @@
         <li>Cohort Analytics Workbook</li>
         <li>6 monthly 30-min check-in calls</li>
       </ul>
-      <a href="https://calendly.com/zach-winecoanalytics" class="tier-btn tier-btn-primary">Book Evaluation</a>
+      <a href="https://calendly.com/zach-winecoanalytics" class="tier-btn tier-btn-primary" onclick="gtag('event','cta_click',{cta_location:'software_essentials'})">Book Evaluation</a>
       <div class="tier-addons"><strong>Add-ons:</strong> New software procurement &middot; Migration support &middot; Staff tech training</div>
     </div>
     <div class="tier-card">
@@ -1035,7 +1035,7 @@
         <li>Revenue initiative identification</li>
         <li>Cohort Analytics Playbook</li>
       </ul>
-      <a href="https://calendly.com/zach-winecoanalytics" class="tier-btn tier-btn-primary">Book Evaluation</a>
+      <a href="https://calendly.com/zach-winecoanalytics" class="tier-btn tier-btn-primary" onclick="gtag('event','cta_click',{cta_location:'operational_efficiency'})">Book Evaluation</a>
       <div class="tier-addons"><strong>Add-ons:</strong> Event management &middot; Wedding consulting &middot; Brand &amp; social strategy</div>
     </div>
     <div class="tier-card">
@@ -1051,7 +1051,7 @@
         <li>90-day implementation roadmap</li>
         <li>Priority cross-track recommendations</li>
       </ul>
-      <a href="https://calendly.com/zach-winecoanalytics" class="tier-btn tier-btn-primary">Book Evaluation</a>
+      <a href="https://calendly.com/zach-winecoanalytics" class="tier-btn tier-btn-primary" onclick="gtag('event','cta_click',{cta_location:'software_and_operations'})">Book Evaluation</a>
       <div class="tier-addons"><strong>Add-ons:</strong> All add-ons from both tracks available</div>
     </div>
   </div>
@@ -1094,27 +1094,27 @@
   </div>
   <div class="faq-list">
     <div class="faq-item">
-      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What size winery is this for?</div>
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open');gtag('event','faq_open',{faq_question:'winery_size'})">What size winery is this for?</div>
       <div class="faq-a">Any size. We scope every engagement around what you actually need &mdash; the difference is your priorities, not your production volume.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What do I need to prepare before you arrive?</div>
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open');gtag('event','faq_open',{faq_question:'preparation'})">What do I need to prepare before you arrive?</div>
       <div class="faq-a">Very little. After booking, we'll send a short intake form asking about your current programs and top priorities. That's it &mdash; we come prepared so you don't have to do homework.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">How does the 1-hour evaluation work?</div>
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open');gtag('event','faq_open',{faq_question:'evaluation_process'})">How does the 1-hour evaluation work?</div>
       <div class="faq-a">One focused hour &mdash; on-site or remote &mdash; where we review your current setup and tell you exactly what we'd fix first. You walk away with clear next steps whether or not you move forward. The $400 applies in full toward any engagement.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What's included in the check-in calls?</div>
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open');gtag('event','faq_open',{faq_question:'checkin_calls'})">What's included in the check-in calls?</div>
       <div class="faq-a">Six 30-minute calls over six months, included with the Software Essentials engagement. We review how the playbook is performing, track changes, and adjust recommendations as your operation evolves.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Where do you work?</div>
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open');gtag('event','faq_open',{faq_question:'service_area'})">Where do you work?</div>
       <div class="faq-a">We serve wineries across North America. Travel logistics and any pricing adjustments are discussed as part of the booking process.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What are your payment terms?</div>
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open');gtag('event','faq_open',{faq_question:'payment_terms'})">What are your payment terms?</div>
       <div class="faq-a">Full payment due at playbook delivery. Payment plans available: 50% day of, 50% at delivery &mdash; or 25% at signing, 25% day of, 25% at delivery, 25% at your 2-month check-in. We accept cash, check, Venmo, and Zelle.</div>
     </div>
   </div>
@@ -1124,7 +1124,7 @@
 <div class="cta-banner">
   <h2>Ready to find out what's working<br>and what isn't?</h2>
   <p>Book your 1-Hour Evaluation. We'll tell you exactly what's working, what isn't, and what to do about it.</p>
-  <a href="https://calendly.com/zach-winecoanalytics" class="btn-primary">Book a 1-Hour Evaluation &mdash; $400 &rarr;</a>
+  <a href="https://calendly.com/zach-winecoanalytics" class="btn-primary" onclick="gtag('event','cta_click',{cta_location:'bottom_cta'})">Book a 1-Hour Evaluation &mdash; $400 &rarr;</a>
 </div>
 
 <!-- FOOTER -->
@@ -1149,15 +1149,15 @@
       <ul>
         <li>
           <span>Sales &amp; Partnerships, Social Media</span>
-          <a href="mailto:madeleine@winecoanalytics.com">madeleine@winecoanalytics.com</a>
+          <a href="mailto:madeleine@winecoanalytics.com" onclick="gtag('event','email_click',{email:'madeleine'})">madeleine@winecoanalytics.com</a>
         </li>
         <li>
           <span>Engagements &amp; Support, Business Development</span>
-          <a href="mailto:zach@winecoanalytics.com">zach@winecoanalytics.com</a>
+          <a href="mailto:zach@winecoanalytics.com" onclick="gtag('event','email_click',{email:'zach'})">zach@winecoanalytics.com</a>
         </li>
         <li>
           <span>General Inbox</span>
-          <a href="mailto:info@winecoanalytics.com">info@winecoanalytics.com</a>
+          <a href="mailto:info@winecoanalytics.com" onclick="gtag('event','email_click',{email:'info'})">info@winecoanalytics.com</a>
         </li>
       </ul>
     </div>
@@ -1167,6 +1167,28 @@
     <p>Book your 1-Hour Evaluation at <a href="https://winecoanalytics.com" style="color:var(--blue);text-decoration:none;">winecoanalytics.com</a> &middot; <a href="mailto:madeleine@winecoanalytics.com" style="color:var(--blue);text-decoration:none;">madeleine@winecoanalytics.com</a></p>
   </div>
 </footer>
+
+<!-- SCROLL DEPTH TRACKING -->
+<script>
+(function(){
+  var sections = ['familiar','how','about','tiers','retainers','faq'];
+  var fired = {};
+  function checkScroll(){
+    sections.forEach(function(id){
+      if(fired[id]) return;
+      var el = document.getElementById(id);
+      if(!el) return;
+      var rect = el.getBoundingClientRect();
+      if(rect.top < window.innerHeight * 0.75){
+        fired[id] = true;
+        gtag('event','scroll_depth',{section:id});
+      }
+    });
+  }
+  window.addEventListener('scroll',checkScroll,{passive:true});
+  checkScroll();
+})();
+</script>
 
 </body>
 </html>
