@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Winery Operations Quiz — Cohort Analytics</title>
+<title>Operations Quiz — Cohort Analytics</title>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-X42PDQJJ44"></script>
 <script>
@@ -153,6 +153,40 @@
     line-height: 1.7;
   }
 
+  /* VERTICAL SELECTOR */
+  .vertical-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    max-width: 480px;
+    margin: 0 auto 36px;
+  }
+
+  .vertical-btn {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 16px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--off-white);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .vertical-btn:hover {
+    border-color: rgba(77,159,255,0.4);
+    background: var(--bg3);
+    color: var(--white);
+  }
+  .vertical-btn.selected {
+    border-color: var(--blue);
+    background: var(--blue-dim);
+    color: var(--white);
+  }
+
   .btn-primary {
     display: inline-flex;
     align-items: center;
@@ -173,6 +207,12 @@
     background: #6db3ff;
     transform: translateY(-1px);
     box-shadow: 0 8px 30px rgba(77,159,255,0.3);
+  }
+  .btn-primary:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
   }
 
   /* PROGRESS BAR */
@@ -555,6 +595,7 @@
     .q-text { font-size: 20px; }
     .result-percentage { font-size: 56px; }
     .start-title { font-size: 28px; }
+    .vertical-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -575,15 +616,26 @@
     <!-- START SCREEN -->
     <div id="startScreen" class="start-screen fade-in">
       <div class="start-eyebrow">Self-Assessment</div>
-      <h1 class="start-title">How healthy is your winery's operation?</h1>
+      <h1 class="start-title">How healthy is your operation?</h1>
       <p class="start-desc">10 questions. 3 minutes. Find out where your software systems and operations stand — and what to focus on next.</p>
-      <button class="btn-primary" id="startBtn">Start Quiz &rarr;</button>
+      <p class="start-desc" style="margin-bottom: 24px; font-size: 15px; color: var(--white);">What type of business do you operate?</p>
+      <div class="vertical-grid" id="verticalGrid">
+        <button class="vertical-btn" data-vertical="winery">Winery</button>
+        <button class="vertical-btn" data-vertical="brewery">Brewery</button>
+        <button class="vertical-btn" data-vertical="distillery">Distillery</button>
+        <button class="vertical-btn" data-vertical="meadery">Meadery</button>
+        <button class="vertical-btn" data-vertical="ciderhouse">Ciderhouse</button>
+        <button class="vertical-btn" data-vertical="restaurant">Restaurant</button>
+        <button class="vertical-btn" data-vertical="winebar">Wine Bar</button>
+        <button class="vertical-btn" data-vertical="wineshop">Wine Shop</button>
+      </div>
+      <button class="btn-primary" id="startBtn" disabled>Start Quiz &rarr;</button>
     </div>
 
     <!-- QUESTION SCREEN -->
     <div id="questionScreen" class="question-screen">
       <div class="progress-wrap">
-        <div class="progress-label">Question <span id="qNum">1</span> of 10</div>
+        <div class="progress-label">Question <span id="qNum">1</span> of <span id="qTotal">10</span></div>
         <div class="progress-bar">
           <div class="progress-fill" id="progressFill"></div>
         </div>
@@ -608,7 +660,7 @@
       <div class="email-capture">
         <p>Want a copy of your results? Enter your email and we'll send them over.</p>
         <form class="email-form" id="emailForm">
-          <input type="email" class="email-input" id="emailInput" placeholder="you@yourwinery.com" required>
+          <input type="email" class="email-input" id="emailInput" placeholder="you@yourbusiness.com" required>
           <button type="submit" class="email-submit">Send Results</button>
         </form>
         <div class="email-success" id="emailSuccess">Sent! Check your inbox.</div>
@@ -620,8 +672,7 @@
 
 <script>
 // ============================================================
-// Google Sheets Webhook — paste this URL after setting up your
-// Google Apps Script web app (see comment block at bottom).
+// Google Sheets Webhook
 // ============================================================
 const SHEETS_WEBHOOK_URL = '';
 
@@ -636,14 +687,310 @@ function generateUUID() {
 const SESSION_ID = generateUUID();
 
 // ============================================================
-// QUIZ DATA
+// VERTICAL-SPECIFIC QUESTION DATA
 // ============================================================
-const questions = [
-  {
+// Questions that differ per vertical are defined in the verticalData
+// object. Many questions share identical structure across verticals
+// with only small wording tweaks (business name, event examples, etc).
+// ============================================================
+
+const verticalData = {
+
+  // ======================= WINERY =======================
+  winery: {
+    label: 'Winery',
+    emailPlaceholder: 'you@yourwinery.com',
+    q1subtext: '(POS, wine club, reservations, email, accounting, inventory, compliance, etc.)',
+    q2commentary1: 'That\u2019s rare and valuable. You\u2019re ahead of most wineries we talk to.',
+    q3commentary1: 'Smart. Most wineries never look under the hood.',
+    q4text: 'What percentage of tasting room guests join your wine club before they leave?',
+    q4options: [
+      { label: 'Over 20%', score: 5, commentary: 'That\u2019s strong. Let\u2019s see if the rest of your operation matches.' },
+      { label: '10\u201320%', score: 3, commentary: 'Solid, but there\u2019s room to grow \u2014 the difference between 15% and 25% is transformative over a year.' },
+      { label: 'Under 10%', score: 2, commentary: 'Most of your guests are walking out the door without a reason to come back.' },
+      { label: 'We don\u2019t track this', score: null, commentary: 'No worries \u2014 not every winery tracks this, and there are plenty of good reasons why. We\u2019ll factor that in.' }
+    ],
+    q4skipTriggers: [],
+    q5text: 'Does your team have a defined process for when and how to pitch wine club membership during a tasting?',
+    q5commentary4: 'A lot of wineries are in the same boat. A simple framework can make a big difference here, and it\u2019s one of the easiest wins to implement.',
+    q6text: 'What does your annual wine club churn rate look like?',
+    q6options: [
+      { label: 'Under 10%', score: 5, commentary: 'Excellent retention. Your members see real value in staying.' },
+      { label: '10\u201320%', score: 3, commentary: 'That\u2019s industry average \u2014 there\u2019s a clear path to doing better.' },
+      { label: '20\u201350%', score: 1, commentary: 'That\u2019s a tough number, but churn is one of the most fixable problems in the wine club business.' },
+      { label: 'Over 50%', score: 0, commentary: 'There\u2019s almost certainly a structural issue driving this \u2014 and structural issues are very solvable.' },
+      { label: 'We don\u2019t track churn', score: null, commentary: 'Totally fine. Not everyone tracks this, and that doesn\u2019t mean anything is wrong.' }
+    ],
+    q7text: 'Do your events (tastings, dinners, live music, etc.) convert attendees into wine club members or repeat visitors?',
+    q7commentary4: 'Events are one of the most effective conversion tools a tasting room has. There may be an opportunity here.',
+    q8text: 'Has anyone outside your team ever formally reviewed your winery\u2019s software systems or operations?',
+    q8commentary3: 'That\u2019s the norm in this industry. Most wineries have never had the opportunity \u2014 which means there\u2019s likely a lot of low-hanging fruit waiting.',
+    q9commentary4: 'That\u2019s really common in small teams. Sometimes it just takes an outside perspective to break the logjam.',
+    q10text: 'How would you describe your winery\u2019s overall operational health right now?'
+  },
+
+  // ======================= BREWERY =======================
+  brewery: {
+    label: 'Brewery',
+    emailPlaceholder: 'you@yourbrewery.com',
+    q1subtext: '(POS, tasting room management, reservations, email, accounting, inventory, compliance, etc.)',
+    q2commentary1: 'That\u2019s rare and valuable. You\u2019re ahead of most breweries we talk to.',
+    q3commentary1: 'Smart. Most breweries never look under the hood.',
+    q4text: 'What percentage of tasting room guests join your club or membership program before they leave?',
+    q4options: [
+      { label: 'Over 20%', score: 5, commentary: 'That\u2019s strong. Let\u2019s see if the rest of your operation matches.' },
+      { label: '10\u201320%', score: 3, commentary: 'Solid, but there\u2019s room to grow \u2014 the difference between 15% and 25% is transformative over a year.' },
+      { label: 'Under 10%', score: 2, commentary: 'There may be guests who love what you do but haven\u2019t been given the right reason to join. Small changes to how and when you pitch can make a big difference.' },
+      { label: 'We don\u2019t have a club or membership program', score: 0, commentary: 'There may be a real opportunity here. Clubs and memberships are one of the strongest tools for building repeat business and predictable revenue.', triggersSkip: true },
+      { label: 'We don\u2019t track this', score: null, commentary: 'No worries \u2014 not every brewery tracks this, and there are plenty of good reasons why. We\u2019ll factor that in.' }
+    ],
+    q4skipTriggers: ['We don\u2019t have a club or membership program'],
+    q5text: 'Does your team have a defined process for when and how to pitch your club or membership during a tasting room visit?',
+    q5commentary4: 'A lot of breweries are in the same boat. A simple framework can make a big difference here, and it\u2019s one of the easiest wins to implement.',
+    q6text: 'What does your annual club or membership churn rate look like?',
+    q6options: [
+      { label: 'Under 10%', score: 5, commentary: 'Excellent retention. Your members see real value in staying.' },
+      { label: '10\u201320%', score: 3, commentary: 'That\u2019s around average \u2014 there\u2019s a clear path to doing better.' },
+      { label: '20\u201350%', score: 1, commentary: 'That\u2019s a tough number, but churn is one of the most fixable problems in the membership business.' },
+      { label: 'Over 50%', score: 0, commentary: 'There\u2019s almost certainly a structural issue driving this \u2014 and structural issues are very solvable.' },
+      { label: 'We don\u2019t track churn', score: null, commentary: 'Totally fine. Not everyone tracks this, and that doesn\u2019t mean anything is wrong.' }
+    ],
+    q7text: 'Do your events (tap takeovers, trivia nights, release parties, etc.) convert attendees into club members or repeat visitors?',
+    q7commentary4: 'Not every event format works for every business. If you\u2019ve been thinking about it, we can help you find the right approach for your specific operation.',
+    q8text: 'Has anyone outside your team ever formally reviewed your brewery\u2019s software systems or operations?',
+    q8commentary3: 'Most businesses in this space haven\u2019t had the chance \u2014 which means there\u2019s likely a lot of low-hanging fruit waiting for when you do.',
+    q9commentary4: 'That\u2019s really common \u2014 whether it\u2019s a small team stretched thin or a larger team with competing priorities, sometimes it just takes an outside perspective to break the logjam.',
+    q10text: 'How would you describe your brewery\u2019s overall operational health right now?'
+  },
+
+  // ======================= DISTILLERY =======================
+  distillery: {
+    label: 'Distillery',
+    emailPlaceholder: 'you@yourdistillery.com',
+    q1subtext: '(POS, tasting room management, reservations, email, accounting, inventory, compliance, etc.)',
+    q2commentary1: 'That\u2019s rare and valuable. You\u2019re ahead of most distilleries we talk to.',
+    q3commentary1: 'Smart. Most distilleries never look under the hood.',
+    q4text: 'What percentage of tasting room guests join your club or membership program before they leave?',
+    q4options: [
+      { label: 'Over 20%', score: 5, commentary: 'That\u2019s strong. Let\u2019s see if the rest of your operation matches.' },
+      { label: '10\u201320%', score: 3, commentary: 'Solid, but there\u2019s room to grow \u2014 the difference between 15% and 25% is transformative over a year.' },
+      { label: 'Under 10%', score: 2, commentary: 'There may be guests who love what you do but haven\u2019t been given the right reason to join. Small changes to how and when you pitch can make a big difference.' },
+      { label: 'We don\u2019t have a club or membership program', score: 0, commentary: 'There may be a real opportunity here. Clubs and memberships are one of the strongest tools for building repeat business and predictable revenue.', triggersSkip: true },
+      { label: 'We don\u2019t track this', score: null, commentary: 'No worries \u2014 not every distillery tracks this, and there are plenty of good reasons why. We\u2019ll factor that in.' }
+    ],
+    q4skipTriggers: ['We don\u2019t have a club or membership program'],
+    q5text: 'Does your team have a defined process for when and how to pitch your club or membership during a tasting room visit?',
+    q5commentary4: 'A lot of distilleries are in the same boat. A simple framework can make a big difference here, and it\u2019s one of the easiest wins to implement.',
+    q6text: 'What does your annual club or membership churn rate look like?',
+    q6options: [
+      { label: 'Under 10%', score: 5, commentary: 'Excellent retention. Your members see real value in staying.' },
+      { label: '10\u201320%', score: 3, commentary: 'That\u2019s around average \u2014 there\u2019s a clear path to doing better.' },
+      { label: '20\u201350%', score: 1, commentary: 'That\u2019s a tough number, but churn is one of the most fixable problems in the membership business.' },
+      { label: 'Over 50%', score: 0, commentary: 'There\u2019s almost certainly a structural issue driving this \u2014 and structural issues are very solvable.' },
+      { label: 'We don\u2019t track churn', score: null, commentary: 'Totally fine. Not everyone tracks this, and that doesn\u2019t mean anything is wrong.' }
+    ],
+    q7text: 'Do your events (tastings, cocktail classes, release parties, etc.) convert attendees into club members or repeat visitors?',
+    q7commentary4: 'Not every event format works for every business. If you\u2019ve been thinking about it, we can help you find the right approach for your specific operation.',
+    q8text: 'Has anyone outside your team ever formally reviewed your distillery\u2019s software systems or operations?',
+    q8commentary3: 'Most businesses in this space haven\u2019t had the chance \u2014 which means there\u2019s likely a lot of low-hanging fruit waiting for when you do.',
+    q9commentary4: 'That\u2019s really common \u2014 whether it\u2019s a small team stretched thin or a larger team with competing priorities, sometimes it just takes an outside perspective to break the logjam.',
+    q10text: 'How would you describe your distillery\u2019s overall operational health right now?'
+  },
+
+  // ======================= MEADERY =======================
+  meadery: {
+    label: 'Meadery',
+    emailPlaceholder: 'you@yourmeadery.com',
+    q1subtext: '(POS, tasting room management, reservations, email, accounting, inventory, compliance, etc.)',
+    q2commentary1: 'That\u2019s rare and valuable. You\u2019re ahead of most meaderies we talk to.',
+    q3commentary1: 'Smart. Most meaderies never look under the hood.',
+    q4text: 'What percentage of tasting room guests join your club or membership program before they leave?',
+    q4options: [
+      { label: 'Over 20%', score: 5, commentary: 'That\u2019s strong. Let\u2019s see if the rest of your operation matches.' },
+      { label: '10\u201320%', score: 3, commentary: 'Solid, but there\u2019s room to grow \u2014 the difference between 15% and 25% is transformative over a year.' },
+      { label: 'Under 10%', score: 2, commentary: 'There may be guests who love what you do but haven\u2019t been given the right reason to join. Small changes to how and when you pitch can make a big difference.' },
+      { label: 'We don\u2019t have a club or membership program', score: 0, commentary: 'There may be a real opportunity here. Clubs and memberships are one of the strongest tools for building repeat business and predictable revenue.', triggersSkip: true },
+      { label: 'We don\u2019t track this', score: null, commentary: 'No worries \u2014 not every meadery tracks this, and there are plenty of good reasons why. We\u2019ll factor that in.' }
+    ],
+    q4skipTriggers: ['We don\u2019t have a club or membership program'],
+    q5text: 'Does your team have a defined process for when and how to pitch your club or membership during a tasting room visit?',
+    q5commentary4: 'A lot of meaderies are in the same boat. A simple framework can make a big difference here, and it\u2019s one of the easiest wins to implement.',
+    q6text: 'What does your annual club or membership churn rate look like?',
+    q6options: [
+      { label: 'Under 10%', score: 5, commentary: 'Excellent retention. Your members see real value in staying.' },
+      { label: '10\u201320%', score: 3, commentary: 'That\u2019s around average \u2014 there\u2019s a clear path to doing better.' },
+      { label: '20\u201350%', score: 1, commentary: 'That\u2019s a tough number, but churn is one of the most fixable problems in the membership business.' },
+      { label: 'Over 50%', score: 0, commentary: 'There\u2019s almost certainly a structural issue driving this \u2014 and structural issues are very solvable.' },
+      { label: 'We don\u2019t track churn', score: null, commentary: 'Totally fine. Not everyone tracks this, and that doesn\u2019t mean anything is wrong.' }
+    ],
+    q7text: 'Do your events (tastings, pairing dinners, mead-making classes, etc.) convert attendees into club members or repeat visitors?',
+    q7commentary4: 'Not every event format works for every business. If you\u2019ve been thinking about it, we can help you find the right approach for your specific operation.',
+    q8text: 'Has anyone outside your team ever formally reviewed your meadery\u2019s software systems or operations?',
+    q8commentary3: 'Most businesses in this space haven\u2019t had the chance \u2014 which means there\u2019s likely a lot of low-hanging fruit waiting for when you do.',
+    q9commentary4: 'That\u2019s really common \u2014 whether it\u2019s a small team stretched thin or a larger team with competing priorities, sometimes it just takes an outside perspective to break the logjam.',
+    q10text: 'How would you describe your meadery\u2019s overall operational health right now?'
+  },
+
+  // ======================= CIDERHOUSE =======================
+  ciderhouse: {
+    label: 'Ciderhouse',
+    emailPlaceholder: 'you@yourciderhouse.com',
+    q1subtext: '(POS, tasting room management, reservations, email, accounting, inventory, compliance, etc.)',
+    q2commentary1: 'That\u2019s rare and valuable. You\u2019re ahead of most ciderhouses we talk to.',
+    q3commentary1: 'Smart. Most ciderhouses never look under the hood.',
+    q4text: 'What percentage of tasting room guests join your club or membership program before they leave?',
+    q4options: [
+      { label: 'Over 20%', score: 5, commentary: 'That\u2019s strong. Let\u2019s see if the rest of your operation matches.' },
+      { label: '10\u201320%', score: 3, commentary: 'Solid, but there\u2019s room to grow \u2014 the difference between 15% and 25% is transformative over a year.' },
+      { label: 'Under 10%', score: 2, commentary: 'There may be guests who love what you do but haven\u2019t been given the right reason to join. Small changes to how and when you pitch can make a big difference.' },
+      { label: 'We don\u2019t have a club or membership program', score: 0, commentary: 'There may be a real opportunity here. Clubs and memberships are one of the strongest tools for building repeat business and predictable revenue.', triggersSkip: true },
+      { label: 'We don\u2019t track this', score: null, commentary: 'No worries \u2014 not every ciderhouse tracks this, and there are plenty of good reasons why. We\u2019ll factor that in.' }
+    ],
+    q4skipTriggers: ['We don\u2019t have a club or membership program'],
+    q5text: 'Does your team have a defined process for when and how to pitch your club or membership during a tasting room visit?',
+    q5commentary4: 'A lot of ciderhouses are in the same boat. A simple framework can make a big difference here, and it\u2019s one of the easiest wins to implement.',
+    q6text: 'What does your annual club or membership churn rate look like?',
+    q6options: [
+      { label: 'Under 10%', score: 5, commentary: 'Excellent retention. Your members see real value in staying.' },
+      { label: '10\u201320%', score: 3, commentary: 'That\u2019s around average \u2014 there\u2019s a clear path to doing better.' },
+      { label: '20\u201350%', score: 1, commentary: 'That\u2019s a tough number, but churn is one of the most fixable problems in the membership business.' },
+      { label: 'Over 50%', score: 0, commentary: 'There\u2019s almost certainly a structural issue driving this \u2014 and structural issues are very solvable.' },
+      { label: 'We don\u2019t track churn', score: null, commentary: 'Totally fine. Not everyone tracks this, and that doesn\u2019t mean anything is wrong.' }
+    ],
+    q7text: 'Do your events (tastings, cider and food pairings, harvest events, etc.) convert attendees into club members or repeat visitors?',
+    q7commentary4: 'Not every event format works for every business. If you\u2019ve been thinking about it, we can help you find the right approach for your specific operation.',
+    q8text: 'Has anyone outside your team ever formally reviewed your ciderhouse\u2019s software systems or operations?',
+    q8commentary3: 'Most businesses in this space haven\u2019t had the chance \u2014 which means there\u2019s likely a lot of low-hanging fruit waiting for when you do.',
+    q9commentary4: 'That\u2019s really common \u2014 whether it\u2019s a small team stretched thin or a larger team with competing priorities, sometimes it just takes an outside perspective to break the logjam.',
+    q10text: 'How would you describe your ciderhouse\u2019s overall operational health right now?'
+  },
+
+  // ======================= RESTAURANT =======================
+  restaurant: {
+    label: 'Restaurant',
+    emailPlaceholder: 'you@yourrestaurant.com',
+    q1subtext: '(POS, reservation system, email marketing, accounting, inventory, scheduling, online ordering, etc.)',
+    q2commentary1: 'That\u2019s rare and valuable. You\u2019re ahead of most restaurants we talk to.',
+    q3commentary1: 'Smart. Most restaurants never look under the hood.',
+    q4text: 'Do you have a club, membership, or loyalty program for your guests?',
+    q4options: [
+      { label: 'Yes, and it drives meaningful repeat business', score: 5, commentary: 'That\u2019s a real competitive advantage. Let\u2019s see if the rest of your operation matches.' },
+      { label: 'Yes, but it\u2019s not very active', score: 2, commentary: 'An inactive program is a missed opportunity \u2014 taking the time to review your membership could help you re-engage your members and build something they want to be part of.' },
+      { label: 'No, but we\u2019ve considered it', score: 1, commentary: 'There\u2019s real opportunity here. Even a simple loyalty program can transform one-time diners into regulars.', triggersSkip: true },
+      { label: 'No, and it\u2019s not on our radar', score: 0, commentary: 'Worth considering \u2014 restaurants with membership or loyalty programs consistently see higher repeat visit rates.', triggersSkip: true },
+      { label: 'We don\u2019t track this', score: null, commentary: 'No worries \u2014 not every restaurant tracks this, and there are plenty of good reasons why. We\u2019ll factor that in.' }
+    ],
+    q4skipTriggers: ['No, but we\u2019ve considered it', 'No, and it\u2019s not on our radar'],
+    q5text: 'Does your team have a defined process for engaging loyalty or membership program participants?',
+    q5commentary4: 'A lot of restaurants are in the same boat. A simple framework can make a big difference here, and it\u2019s one of the easiest wins to implement.',
+    q6text: 'How confident are you that your front-of-house team delivers a consistent guest experience that makes people want to come back?',
+    q6options: [
+      { label: 'Very confident \u2014 we train for this consistently', score: 5, commentary: 'That investment in training shows. Consistency is what turns first-time guests into regulars.' },
+      { label: 'Fairly confident \u2014 most of our team is solid', score: 3, commentary: 'A strong core is a great start. Bringing the whole team to that level is where the next jump in guest retention happens.' },
+      { label: 'It varies a lot depending on who\u2019s working', score: 1, commentary: 'That inconsistency is one of the most common challenges \u2014 and one of the most trainable. A clear hospitality framework can level the whole team up.' },
+      { label: 'We haven\u2019t focused on this', score: 0, commentary: 'Guest experience consistency is one of the highest-ROI investments a restaurant can make \u2014 and it\u2019s very trainable. This could be a quick win.' }
+    ],
+    q7text: 'Do your events (wine dinners, tasting menus, private events, etc.) convert attendees into repeat guests or members?',
+    q7commentary4: 'Not every event format works for every business. If you\u2019ve been thinking about it, we can help you find the right approach for your specific operation.',
+    q8text: 'Has anyone outside your team ever formally reviewed your restaurant\u2019s software systems or operations?',
+    q8commentary3: 'Most businesses in this space haven\u2019t had the chance \u2014 which means there\u2019s likely a lot of low-hanging fruit waiting for when you do.',
+    q9commentary4: 'That\u2019s really common \u2014 whether it\u2019s a small team stretched thin or a larger team with competing priorities, sometimes it just takes an outside perspective to break the logjam.',
+    q10text: 'How would you describe your restaurant\u2019s overall operational health right now?'
+  },
+
+  // ======================= WINE BAR =======================
+  winebar: {
+    label: 'Wine Bar',
+    emailPlaceholder: 'you@yourwinebar.com',
+    q1subtext: '(POS, reservation system, email marketing, accounting, inventory, wine-by-the-glass management, online ordering, etc.)',
+    q2commentary1: 'That\u2019s rare and valuable. You\u2019re ahead of most wine bars we talk to.',
+    q3commentary1: 'Smart. Most wine bars never look under the hood.',
+    q4text: 'Do you have a club, membership, or loyalty program for your guests?',
+    q4options: [
+      { label: 'Yes, and it drives meaningful repeat business', score: 5, commentary: 'That\u2019s a real competitive advantage. Let\u2019s see if the rest of your operation matches.' },
+      { label: 'Yes, but it\u2019s not very active', score: 2, commentary: 'An inactive program is a missed opportunity \u2014 taking the time to review your membership could help you re-engage your members and build something they want to be part of.' },
+      { label: 'No, but we\u2019ve considered it', score: 1, commentary: 'There\u2019s real opportunity here. Wine bars are uniquely positioned to build membership programs around education, access, and exclusive tastings.', triggersSkip: true },
+      { label: 'No, and it\u2019s not on our radar', score: 0, commentary: 'There\u2019s real opportunity here. Wine bars are uniquely positioned to build membership programs around education, access, and exclusive tastings.', triggersSkip: true },
+      { label: 'We don\u2019t track this', score: null, commentary: 'No worries \u2014 not every wine bar tracks this, and there are plenty of good reasons why. We\u2019ll factor that in.' }
+    ],
+    q4skipTriggers: ['No, but we\u2019ve considered it', 'No, and it\u2019s not on our radar'],
+    q5text: 'Does your team have a defined process for engaging loyalty or membership program participants?',
+    q5commentary4: 'A lot of wine bars are in the same boat. A simple framework can make a big difference here, and it\u2019s one of the easiest wins to implement.',
+    q6text: 'How confident are you that your team delivers a consistent guest experience that makes people want to come back?',
+    q6options: [
+      { label: 'Very confident \u2014 we train for this consistently', score: 5, commentary: 'That investment in training shows. Consistency is what turns first-time guests into regulars.' },
+      { label: 'Fairly confident \u2014 most of our team is solid', score: 3, commentary: 'A strong core is a great start. Bringing the whole team to that level is where the next jump in guest retention happens.' },
+      { label: 'It varies a lot depending on who\u2019s working', score: 1, commentary: 'That inconsistency is one of the most common challenges \u2014 and one of the most trainable. A clear hospitality framework can level the whole team up.' },
+      { label: 'We haven\u2019t focused on this', score: 0, commentary: 'Guest experience consistency is one of the highest-ROI investments a wine bar can make \u2014 and it\u2019s very trainable. This could be a quick win.' }
+    ],
+    q7text: 'Do your events (wine dinners, tastings, winemaker visits, educational classes, etc.) convert attendees into repeat guests or members?',
+    q7commentary4: 'Not every event format works for every business. If you\u2019ve been thinking about it, we can help you find the right approach for your specific operation.',
+    q8text: 'Has anyone outside your team ever formally reviewed your wine bar\u2019s software systems or operations?',
+    q8commentary3: 'Most businesses in this space haven\u2019t had the chance \u2014 which means there\u2019s likely a lot of low-hanging fruit waiting for when you do.',
+    q9commentary4: 'That\u2019s really common \u2014 whether it\u2019s a small team stretched thin or a larger team with competing priorities, sometimes it just takes an outside perspective to break the logjam.',
+    q10text: 'How would you describe your wine bar\u2019s overall operational health right now?'
+  },
+
+  // ======================= WINE SHOP =======================
+  wineshop: {
+    label: 'Wine Shop',
+    emailPlaceholder: 'you@yourwineshop.com',
+    q1subtext: '(POS, e-commerce platform, website, email marketing, accounting, inventory, CRM, etc.)',
+    q2commentary1: 'That\u2019s rare and valuable. You\u2019re ahead of most wine shops we talk to.',
+    q3commentary1: 'Smart. Most wine shops never look under the hood.',
+    // Wine shop has a unique Q3
+    q3override: {
+      id: 3,
+      category: 'Software Systems Health',
+      text: 'Do you have a website with e-commerce, and are your in-store and online inventories connected?',
+      options: [
+        { label: 'Yes, website with e-commerce and synced inventory', score: 5, commentary: 'That\u2019s a strong setup. You\u2019re capturing both foot traffic and online sales.' },
+        { label: 'Yes, website with e-commerce but inventory isn\u2019t synced', score: 3, commentary: 'The disconnect between in-store and online inventory is one of the most common \u2014 and most fixable \u2014 problems in retail wine.' },
+        { label: 'We have a website but no e-commerce', score: 1, commentary: 'There\u2019s a significant revenue channel sitting untapped. E-commerce doesn\u2019t have to be complicated to be effective.' },
+        { label: 'We don\u2019t have a website', score: 0, commentary: 'That\u2019s a bigger opportunity than you might think. Even a simple web presence with online ordering can open up an entirely new revenue stream.' }
+      ]
+    },
+    q4text: 'Do you have a club, membership, or loyalty program for your customers?',
+    q4options: [
+      { label: 'Yes, and it drives meaningful repeat business', score: 5, commentary: 'That\u2019s a real competitive advantage. Let\u2019s see if the rest of your operation matches.' },
+      { label: 'Yes, but it\u2019s not very active', score: 2, commentary: 'An inactive program is a missed opportunity \u2014 taking the time to review your membership could help you re-engage your members and build something they want to be part of.' },
+      { label: 'No, but we\u2019ve considered it', score: 1, commentary: 'There\u2019s real opportunity here. Wine shops are perfectly positioned to build subscription or membership programs around curated selections and exclusive access.', triggersSkip: true },
+      { label: 'No, and it\u2019s not on our radar', score: 0, commentary: 'Worth considering \u2014 shops with club or membership programs build predictable recurring revenue that smooths out the ups and downs of retail.', triggersSkip: true },
+      { label: 'We don\u2019t track this', score: null, commentary: 'No worries \u2014 not every shop tracks this, and there are plenty of good reasons why. We\u2019ll factor that in.' }
+    ],
+    q4skipTriggers: ['No, but we\u2019ve considered it', 'No, and it\u2019s not on our radar'],
+    q5text: 'Does your team have a defined process for converting in-store browsers into club members, email subscribers, or repeat customers?',
+    q5commentary4: 'A lot of shops are in the same boat. A simple framework can make a big difference here, and it\u2019s one of the easiest wins to implement.',
+    q6text: 'What does your annual club or membership churn rate look like?',
+    q6options: [
+      { label: 'Under 10%', score: 5, commentary: 'Excellent retention. Your members see real value in staying.' },
+      { label: '10\u201320%', score: 3, commentary: 'That\u2019s around average \u2014 there\u2019s a clear path to doing better.' },
+      { label: '20\u201350%', score: 1, commentary: 'That\u2019s a tough number, but churn is one of the most fixable problems in the membership business.' },
+      { label: 'Over 50%', score: 0, commentary: 'There\u2019s almost certainly a structural issue driving this \u2014 and structural issues are very solvable.' },
+      { label: 'We don\u2019t track churn', score: null, commentary: 'Totally fine. Not everyone tracks this, and that doesn\u2019t mean anything is wrong.' }
+    ],
+    q7text: 'Do your events (on-premise tastings, winemaker visits, classes, etc.) convert attendees into club members or repeat customers?',
+    q7commentary4: 'Not every event format works for every business. If you\u2019ve been thinking about it, we can help you find the right approach for your specific operation.',
+    q8text: 'Has anyone outside your team ever formally reviewed your shop\u2019s software systems or operations?',
+    q8commentary3: 'Most businesses in this space haven\u2019t had the chance \u2014 which means there\u2019s likely a lot of low-hanging fruit waiting for when you do.',
+    q9commentary4: 'That\u2019s really common \u2014 whether it\u2019s a small team stretched thin or a larger team with competing priorities, sometimes it just takes an outside perspective to break the logjam.',
+    q10text: 'How would you describe your shop\u2019s overall operational health right now?'
+  }
+};
+
+
+// ============================================================
+// BUILD QUESTIONS FOR SELECTED VERTICAL
+// ============================================================
+function buildQuestions(verticalKey) {
+  const v = verticalData[verticalKey];
+
+  // Q1 — shared structure, vertical-specific subtext
+  const q1 = {
     id: 1,
     category: 'Software Systems Health',
     text: 'How many different software programs does your team use to run the business?',
-    subtext: '(POS, wine club, reservations, email, accounting, inventory, compliance, etc.)',
+    subtext: v.q1subtext,
     options: [
       { label: '1\u20132', score: 5, commentary: 'Lean and efficient. Let\u2019s make sure those tools are pulling their weight.' },
       { label: '3\u20134', score: 3, commentary: 'That\u2019s typical. The question is whether they\u2019re talking to each other.' },
@@ -651,86 +998,107 @@ const questions = [
       { label: '7+', score: 1, commentary: 'You\u2019re not alone \u2014 but every extra system is a potential leak in time and money.' },
       { label: 'I\u2019m not sure', score: 0, commentary: 'That\u2019s a great reason to take this quiz. We\u2019ll help you start building that picture.' }
     ]
-  },
-  {
+  };
+
+  // Q2 — shared structure, vertical-specific first commentary
+  const q2 = {
     id: 2,
     category: 'Software Systems Health',
     text: 'Do any of your software systems share data automatically, or does your team re-enter information between them?',
     options: [
-      { label: 'Everything syncs automatically', score: 5, commentary: 'That\u2019s rare and valuable. You\u2019re ahead of most wineries we talk to.' },
+      { label: 'Everything syncs automatically', score: 5, commentary: v.q2commentary1 },
       { label: 'Most things sync', score: 4, commentary: 'Good foundation. The gaps that remain are usually the ones costing you hours.' },
       { label: 'Some manual entry', score: 2, commentary: 'Every manual handoff is a place where data gets lost or duplicated.' },
       { label: 'Mostly manual', score: 1, commentary: 'Your team is spending hours doing what software should handle for them.' },
       { label: 'I don\u2019t know', score: 0, commentary: 'That\u2019s a great reason to take this quiz. We\u2019ll help you start building that picture.' }
     ]
-  },
-  {
-    id: 3,
-    category: 'Software Systems Health',
-    text: 'In the last 12 months, have you evaluated whether any of your software subscriptions overlap or go unused?',
-    options: [
-      { label: 'Yes, we reviewed everything', score: 5, commentary: 'Smart. Most wineries never look under the hood.' },
-      { label: 'We looked at a few', score: 3, commentary: 'A good start. The ones you haven\u2019t looked at are usually the ones costing you.' },
-      { label: 'No', score: 1, commentary: 'You\u2019d be surprised what\u2019s sitting on auto-renew that nobody on your team actually uses.' },
-      { label: 'I wouldn\u2019t know where to start', score: 0, commentary: 'That\u2019s exactly what we help with. There\u2019s almost always money sitting on the table here.' }
-    ]
-  },
-  {
+  };
+
+  // Q3 — wine shop has a unique override; others share structure
+  let q3;
+  if (v.q3override) {
+    q3 = v.q3override;
+  } else {
+    q3 = {
+      id: 3,
+      category: 'Software Systems Health',
+      text: 'In the last 12 months, have you evaluated whether any of your software subscriptions overlap or go unused?',
+      options: [
+        { label: 'Yes, we reviewed everything', score: 5, commentary: v.q3commentary1 },
+        { label: 'We looked at a few', score: 3, commentary: 'A good start. The ones you haven\u2019t looked at are usually the ones costing you.' },
+        { label: 'No', score: 1, commentary: 'You\u2019d be surprised what\u2019s sitting on auto-renew that nobody on your team actually uses.' },
+        { label: 'I wouldn\u2019t know where to start', score: 0, commentary: 'That\u2019s exactly what we help with. There\u2019s almost always money sitting on the table here.' }
+      ]
+    };
+  }
+
+  // Q4 — fully vertical-specific
+  const q4 = {
     id: 4,
     category: 'Operations Health',
-    text: 'What percentage of tasting room guests join your wine club before they leave?',
-    options: [
-      { label: 'Over 20%', score: 5, commentary: 'That\u2019s strong. Let\u2019s see if the rest of your operation matches.' },
-      { label: '10\u201320%', score: 3, commentary: 'Solid, but there\u2019s room to grow \u2014 the difference between 15% and 25% is transformative over a year.' },
-      { label: 'Under 10%', score: 2, commentary: 'Most of your guests are walking out the door without a reason to come back.' },
-      { label: 'We don\u2019t track this', score: null, commentary: 'No worries \u2014 not every winery tracks this, and there are plenty of good reasons why. We\u2019ll factor that in.' }
-    ]
-  },
-  {
+    text: v.q4text,
+    options: v.q4options,
+    skipTriggers: v.q4skipTriggers
+  };
+
+  // Q5 — shared structure with vertical-specific text/commentary
+  const q5 = {
     id: 5,
     category: 'Operations Health',
-    text: 'Does your team have a defined process for when and how to pitch wine club membership during a tasting?',
+    text: v.q5text,
+    canBeSkipped: true,
     options: [
       { label: 'Yes, trained and consistent', score: 5, commentary: 'That consistency is what separates high-converting tasting rooms from the rest.' },
       { label: 'Loosely defined', score: 3, commentary: 'Some structure is better than none, but loose processes lead to inconsistent results.' },
       { label: 'Depends on the person', score: 1, commentary: 'That\u2019s common, and it usually means there\u2019s an opportunity to build a system that works for everyone on your team \u2014 not just the naturals.' },
-      { label: 'No', score: 0, commentary: 'A lot of wineries are in the same boat. A simple framework can make a big difference here, and it\u2019s one of the easiest wins to implement.' }
+      { label: 'No', score: 0, commentary: v.q5commentary4 }
     ]
-  },
-  {
+  };
+  // For restaurant/winebar Q5, override the first option commentary
+  if (verticalKey === 'restaurant') {
+    q5.options[0].commentary = 'That consistency is what separates restaurants that grow from restaurants that plateau.';
+  } else if (verticalKey === 'winebar') {
+    q5.options[0].commentary = 'That consistency is what separates wine bars that grow from wine bars that plateau.';
+  } else if (verticalKey === 'wineshop') {
+    q5.options[0].commentary = 'That consistency is what separates high-converting shops from the rest.';
+  }
+
+  // Q6 — fully vertical-specific (restaurant/winebar have different Q6)
+  const q6 = {
     id: 6,
     category: 'Operations Health',
-    text: 'What does your annual wine club churn rate look like?',
-    options: [
-      { label: 'Under 10%', score: 5, commentary: 'Excellent retention. Your members see real value in staying.' },
-      { label: '10\u201320%', score: 3, commentary: 'That\u2019s industry average \u2014 there\u2019s a clear path to doing better.' },
-      { label: '20\u201350%', score: 1, commentary: 'That\u2019s a tough number, but churn is one of the most fixable problems in the wine club business.' },
-      { label: 'Over 50%', score: 0, commentary: 'There\u2019s almost certainly a structural issue driving this \u2014 and structural issues are very solvable.' },
-      { label: 'We don\u2019t track churn', score: null, commentary: 'Totally fine. Not everyone tracks this, and that doesn\u2019t mean anything is wrong.' }
-    ]
-  },
-  {
+    text: v.q6text,
+    canBeSkipped: (verticalKey !== 'restaurant' && verticalKey !== 'winebar'),
+    options: v.q6options
+  };
+
+  // Q7 — shared structure with vertical-specific text
+  const q7 = {
     id: 7,
     category: 'Operations Health',
-    text: 'Do your events (tastings, dinners, live music, etc.) convert attendees into wine club members or repeat visitors?',
+    text: v.q7text,
     options: [
       { label: 'Yes, we track and optimize this', score: 5, commentary: 'You\u2019re treating events like the revenue tool they are.' },
-      { label: 'Sometimes', score: 3, commentary: 'Events that fill seats but don\u2019t build loyalty are expensive marketing with no payoff.' },
+      { label: 'Sometimes', score: 3, commentary: 'Events that fill seats but don\u2019t build loyalty are expensive marketing with little payoff.' },
       { label: 'We don\u2019t track it', score: 1, commentary: 'You might be running great events that aren\u2019t doing anything for your bottom line \u2014 and you\u2019d never know.' },
-      { label: 'We don\u2019t run events', score: 0, commentary: 'Events are one of the most effective conversion tools a tasting room has. There may be an opportunity here.' }
+      { label: 'We don\u2019t run events', score: 0, commentary: v.q7commentary4 }
     ]
-  },
-  {
+  };
+
+  // Q8 — shared structure with vertical-specific text/commentary
+  const q8 = {
     id: 8,
     category: 'Business Awareness',
-    text: 'Has anyone outside your team ever formally reviewed your winery\u2019s software systems or operations?',
+    text: v.q8text,
     options: [
       { label: 'Yes, within the last year', score: 5, commentary: 'Good. Outside perspective keeps blind spots from becoming expensive habits.' },
       { label: 'Yes, but more than a year ago', score: 3, commentary: 'A lot changes in a year \u2014 especially in software. It might be time for a fresh look.' },
-      { label: 'No, never', score: 1, commentary: 'That\u2019s the norm in this industry. Most wineries have never had the opportunity \u2014 which means there\u2019s likely a lot of low-hanging fruit waiting.' }
+      { label: 'No, never', score: 1, commentary: v.q8commentary3 }
     ]
-  },
-  {
+  };
+
+  // Q9 — shared structure
+  const q9 = {
     id: 9,
     category: 'Business Awareness',
     text: 'When you identify a problem in your operation, how quickly does your team typically implement a fix?',
@@ -738,36 +1106,48 @@ const questions = [
       { label: 'Within a week', score: 5, commentary: 'That speed is a competitive advantage.' },
       { label: 'Within a month', score: 3, commentary: 'Solid. Most operational fixes get better results the sooner they\u2019re implemented.' },
       { label: 'It takes a few months', score: 2, commentary: 'You\u2019re not alone \u2014 competing priorities make it hard to move fast.' },
-      { label: 'Things tend to stay the way they are', score: 0, commentary: 'That\u2019s really common in small teams. Sometimes it just takes an outside perspective to break the logjam.' }
+      { label: 'Things tend to stay the way they are', score: 0, commentary: v.q9commentary4 }
     ]
-  },
-  {
+  };
+
+  // Q10 — shared structure with vertical-specific text
+  const q10 = {
     id: 10,
     category: 'Business Awareness',
-    text: 'How would you describe your winery\u2019s overall operational health right now?',
+    text: v.q10text,
     options: [
       { label: 'Running smoothly, just looking to optimize', score: 5, commentary: 'Great position to be in. Fine-tuning a healthy operation is where the biggest gains hide.' },
       { label: 'Good but I know there are gaps', score: 3, commentary: 'Knowing you have gaps is the first step. The next step is figuring out which ones matter most.' },
       { label: 'Struggling in some areas', score: 2, commentary: 'That\u2019s more common than people admit. The good news is that the biggest problems are usually the most fixable.' },
       { label: 'I don\u2019t have a clear picture', score: 0, commentary: 'That\u2019s more common than you\u2019d think, and it\u2019s one of the most valuable things to fix \u2014 because once you can see the full picture, the priorities become obvious.' }
     ]
-  }
-];
+  };
+
+  return [q1, q2, q3, q4, q5, q6, q7, q8, q9, q10];
+}
+
 
 // ============================================================
 // STATE
 // ============================================================
+let selectedVertical = null;
+let questions = [];
 let currentQ = 0;
-let answers = []; // { questionId, answerText, score, isNull }
+let activeQuestionIndices = []; // tracks which question indices are active (accounts for skips)
+let activeQPos = 0; // position within activeQuestionIndices
+let answers = []; // { questionId, answerText, score, isNull, skipped }
+let skipQ5Q6 = false;
 
 // ============================================================
 // DOM REFS
 // ============================================================
 const startScreen = document.getElementById('startScreen');
 const startBtn = document.getElementById('startBtn');
+const verticalGrid = document.getElementById('verticalGrid');
 const questionScreen = document.getElementById('questionScreen');
 const resultsScreen = document.getElementById('resultsScreen');
 const qNum = document.getElementById('qNum');
+const qTotal = document.getElementById('qTotal');
 const progressFill = document.getElementById('progressFill');
 const qCategory = document.getElementById('qCategory');
 const qText = document.getElementById('qText');
@@ -776,22 +1156,68 @@ const qCommentary = document.getElementById('qCommentary');
 const qNextWrap = document.getElementById('qNextWrap');
 
 // ============================================================
+// VERTICAL SELECTION
+// ============================================================
+verticalGrid.addEventListener('click', function(e) {
+  const btn = e.target.closest('.vertical-btn');
+  if (!btn) return;
+
+  // Deselect all
+  verticalGrid.querySelectorAll('.vertical-btn').forEach(function(b) {
+    b.classList.remove('selected');
+  });
+
+  // Select this one
+  btn.classList.add('selected');
+  selectedVertical = btn.getAttribute('data-vertical');
+  startBtn.disabled = false;
+});
+
+// ============================================================
 // START
 // ============================================================
 startBtn.addEventListener('click', function() {
-  gtag('event', 'quiz_start', { session_id: SESSION_ID });
+  if (!selectedVertical) return;
+
+  // Build questions for selected vertical
+  questions = buildQuestions(selectedVertical);
+
+  // All 10 active initially
+  activeQuestionIndices = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  activeQPos = 0;
+  skipQ5Q6 = false;
+
+  // Update email placeholder
+  const v = verticalData[selectedVertical];
+  document.getElementById('emailInput').placeholder = v.emailPlaceholder;
+
+  gtag('event', 'quiz_start', {
+    session_id: SESSION_ID,
+    vertical: selectedVertical
+  });
+
   startScreen.style.display = 'none';
   questionScreen.classList.add('active');
+  updateTotalDisplay();
   renderQuestion();
 });
+
+// ============================================================
+// UPDATE TOTAL QUESTION COUNT (accounts for skips)
+// ============================================================
+function updateTotalDisplay() {
+  qTotal.textContent = activeQuestionIndices.length;
+}
 
 // ============================================================
 // RENDER QUESTION
 // ============================================================
 function renderQuestion() {
-  const q = questions[currentQ];
-  qNum.textContent = currentQ + 1;
-  progressFill.style.width = ((currentQ) / 10 * 100) + '%';
+  const qIdx = activeQuestionIndices[activeQPos];
+  const q = questions[qIdx];
+
+  qNum.textContent = activeQPos + 1;
+  progressFill.style.width = ((activeQPos) / activeQuestionIndices.length * 100) + '%';
   qCategory.textContent = q.category;
 
   let fullText = q.text;
@@ -807,7 +1233,7 @@ function renderQuestion() {
     btn.className = 'q-option';
     btn.textContent = opt.label;
     btn.setAttribute('data-idx', idx);
-    btn.addEventListener('click', function() { selectAnswer(idx); });
+    btn.addEventListener('click', function() { selectAnswer(qIdx, idx); });
     qOptions.appendChild(btn);
   });
 
@@ -818,14 +1244,14 @@ function renderQuestion() {
 // ============================================================
 // SELECT ANSWER
 // ============================================================
-function selectAnswer(idx) {
-  const q = questions[currentQ];
-  const opt = q.options[idx];
+function selectAnswer(qIdx, optIdx) {
+  const q = questions[qIdx];
+  const opt = q.options[optIdx];
 
   // Disable all options
   const allBtns = qOptions.querySelectorAll('.q-option');
   allBtns.forEach(function(btn, i) {
-    if (i === idx) {
+    if (i === optIdx) {
       btn.classList.add('selected');
     } else {
       btn.classList.add('disabled');
@@ -839,23 +1265,51 @@ function selectAnswer(idx) {
     questionId: q.id,
     answerText: opt.label,
     score: opt.score,
-    isNull: isNull
+    isNull: isNull,
+    skipped: false
   });
 
   // Fire GA4 event
   gtag('event', 'quiz_answer', {
     session_id: SESSION_ID,
+    vertical: selectedVertical,
     question_id: q.id,
     answer_text: opt.label,
     score: isNull ? 'NULL' : opt.score,
     is_null: isNull
   });
 
+  // Check skip logic: if Q4 answer triggers skip of Q5 and Q6
+  if (q.id === 4 && opt.triggersSkip) {
+    skipQ5Q6 = true;
+    // Remove Q5 and Q6 from active indices (indices 4 and 5)
+    activeQuestionIndices = activeQuestionIndices.filter(function(i) {
+      return i !== 4 && i !== 5; // question indices 4=Q5, 5=Q6
+    });
+    updateTotalDisplay();
+
+    // Log skipped answers for Q5 and Q6
+    answers.push({
+      questionId: 5,
+      answerText: 'SKIPPED',
+      score: null,
+      isNull: true,
+      skipped: true
+    });
+    answers.push({
+      questionId: 6,
+      answerText: 'SKIPPED',
+      score: null,
+      isNull: true,
+      skipped: true
+    });
+  }
+
   // Show commentary
   qCommentary.innerHTML = '<div class="q-commentary">' + opt.commentary + '</div>';
 
   // Show next button
-  const isLast = currentQ === questions.length - 1;
+  const isLast = activeQPos === activeQuestionIndices.length - 1;
   qNextWrap.innerHTML = '<div class="q-next-wrap"><button class="btn-next">' +
     (isLast ? 'See Results' : 'Next') + ' &rarr;</button></div>';
 
@@ -863,7 +1317,7 @@ function selectAnswer(idx) {
     if (isLast) {
       showResults();
     } else {
-      currentQ++;
+      activeQPos++;
       renderQuestion();
     }
   });
@@ -886,7 +1340,7 @@ function showResults() {
   let awarenessScore = 0, awarenessMax = 0;
 
   answers.forEach(function(a) {
-    if (!a.isNull) {
+    if (!a.isNull && !a.skipped) {
       totalScore += a.score;
       maxPossible += 5;
       if (a.questionId <= 3) {
@@ -899,16 +1353,8 @@ function showResults() {
         awarenessScore += a.score;
         awarenessMax += 5;
       }
-    } else {
-      // NULL: don't count toward score or max
-      if (a.questionId <= 3) {
-        // software — no null options defined but handle anyway
-      } else if (a.questionId <= 7) {
-        // ops — null
-      } else {
-        // awareness — no null options
-      }
     }
+    // NULL and SKIPPED: don't count toward score or max
   });
 
   const percentage = maxPossible > 0 ? Math.round((totalScore / maxPossible) * 100) : 0;
@@ -941,6 +1387,7 @@ function showResults() {
   // Fire GA4 complete event
   gtag('event', 'quiz_complete', {
     session_id: SESSION_ID,
+    vertical: selectedVertical,
     total_score: totalScore,
     max_possible: maxPossible,
     percentage: percentage,
@@ -1014,6 +1461,7 @@ function handleCtaClick(ctaType) {
 
   gtag('event', 'quiz_cta_click', {
     session_id: SESSION_ID,
+    vertical: selectedVertical,
     tier: tier,
     cta_type: ctaType
   });
@@ -1033,6 +1481,7 @@ document.getElementById('emailForm').addEventListener('submit', function(e) {
 
   gtag('event', 'quiz_email_capture', {
     session_id: SESSION_ID,
+    vertical: selectedVertical,
     email: email,
     tier: tier
   });
@@ -1046,6 +1495,7 @@ document.getElementById('emailForm').addEventListener('submit', function(e) {
       body: JSON.stringify({
         action: 'email_capture',
         session_id: SESSION_ID,
+        vertical: selectedVertical,
         email: email,
         tier: tier
       })
@@ -1066,11 +1516,13 @@ function sendToSheets(totalScore, maxPossible, percentage, tier, softwareScore, 
     action: 'quiz_complete',
     timestamp: new Date().toISOString(),
     session_id: SESSION_ID,
+    vertical: selectedVertical,
     answers: answers.map(function(a) {
       return {
         question_id: a.questionId,
         answer_text: a.answerText,
-        score: a.isNull ? 'NULL' : a.score
+        score: a.isNull ? 'NULL' : a.score,
+        skipped: a.skipped || false
       };
     }),
     total_score: totalScore,
@@ -1110,7 +1562,7 @@ function doPost(e) {
     var rows = sheet.getDataRange().getValues();
     for (var i = 1; i < rows.length; i++) {
       if (rows[i][1] === data.session_id) {
-        sheet.getRange(i + 1, 16).setValue(data.email); // Column P = Email
+        sheet.getRange(i + 1, 18).setValue(data.email); // Column R = Email
         break;
       }
     }
@@ -1118,14 +1570,15 @@ function doPost(e) {
   }
 
   // Quiz complete — write a new row
-  // Columns: A=Timestamp, B=SessionID, C-L=Q1-Q10 Answers, M-V=Q1-Q10 Scores,
-  //          W=TotalScore, X=MaxPossible, Y=Percentage, Z=Tier,
-  //          AA=SoftwareSubscore, AB=OpsSubscore, AC=AwarenessSubscore,
-  //          AD=Email, AE=CTAClicked
+  // Columns: A=Timestamp, B=SessionID, C=Vertical, D-M=Q1-Q10 Answers, N-W=Q1-Q10 Scores,
+  //          X=TotalScore, Y=MaxPossible, Z=Percentage, AA=Tier,
+  //          AB=SoftwareSubscore, AC=OpsSubscore, AD=AwarenessSubscore,
+  //          AE=Email, AF=CTAClicked
 
   var row = [
     data.timestamp,
-    data.session_id
+    data.session_id,
+    data.vertical
   ];
 
   // Answers (text)
@@ -1157,7 +1610,7 @@ function doPost(e) {
 function setupHeaders() {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
   var headers = [
-    'Timestamp', 'Session ID',
+    'Timestamp', 'Session ID', 'Vertical',
     'Q1 Answer', 'Q2 Answer', 'Q3 Answer', 'Q4 Answer', 'Q5 Answer',
     'Q6 Answer', 'Q7 Answer', 'Q8 Answer', 'Q9 Answer', 'Q10 Answer',
     'Q1 Score', 'Q2 Score', 'Q3 Score', 'Q4 Score', 'Q5 Score',
