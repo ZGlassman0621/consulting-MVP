@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book an Evaluation &mdash; Cohort Analytics</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X42PDQJJ44"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-X42PDQJJ44');
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0a0a0a;
+    --bg2: #111111;
+    --bg3: #161616;
+    --blue: #4D9FFF;
+    --blue-dim: rgba(77,159,255,0.12);
+    --pink: #FF3B8B;
+    --pink-dim: rgba(255,59,139,0.1);
+    --white: #ffffff;
+    --off-white: #e8e4de;
+    --muted: #888880;
+    --border: rgba(255,255,255,0.08);
+    --border-bright: rgba(77,159,255,0.3);
+    --green: #34D399;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg);
+    color: var(--off-white);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 68px;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--white);
+    text-decoration: none;
+    letter-spacing: -0.3px;
+  }
+  .nav-logo span { color: var(--blue); }
+
+  .nav-back {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-back:hover { color: var(--white); }
+
+  /* MAIN */
+  .page-wrap {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 120px 48px 80px;
+    position: relative;
+  }
+
+  .glow {
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(77,159,255,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .glow-2 {
+    position: absolute;
+    bottom: -100px; left: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(255,59,139,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--blue-dim);
+    border: 1px solid var(--border-bright);
+    border-radius: 100px;
+    padding: 8px 20px;
+    margin-bottom: 28px;
+  }
+  .badge span {
+    font-family: 'Outfit', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--blue);
+    letter-spacing: 0.5px;
+  }
+
+  h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+    color: var(--white);
+    max-width: 640px;
+    margin-bottom: 20px;
+  }
+
+  .subtitle {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: 48px;
+  }
+
+  /* TWO CARDS */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 720px;
+    width: 100%;
+    margin-bottom: 48px;
+  }
+
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 36px 28px;
+    text-align: center;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .card:hover { border-color: rgba(77,159,255,0.3); transform: translateY(-2px); }
+
+  .card-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .card h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 10px;
+    letter-spacing: -0.3px;
+  }
+
+  .card p {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--blue);
+    color: var(--bg);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-primary:hover {
+    background: #6db3ff;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 30px rgba(77,159,255,0.3);
+  }
+
+  /* EMAIL CAPTURE */
+  .notify-section {
+    max-width: 480px;
+    width: 100%;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+  }
+
+  .notify-section h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .notify-section p {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .notify-form {
+    display: flex;
+    gap: 10px;
+  }
+
+  .notify-input {
+    flex: 1;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    color: var(--off-white);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .notify-input:focus { border-color: var(--border-bright); }
+  .notify-input::placeholder { color: var(--muted); }
+
+  .notify-submit {
+    background: var(--blue);
+    color: var(--bg);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .notify-submit:hover { background: #6db3ff; }
+
+  .notify-success {
+    font-size: 13px;
+    color: var(--green);
+    margin-top: 12px;
+    display: none;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; }
+    .page-wrap { padding: 100px 24px 60px; }
+    .cards { grid-template-columns: 1fr; }
+    .notify-form { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Cohort<span> Analytics</span></a>
+  <a href="index.html" class="nav-back">&larr; Back to site</a>
+</nav>
+
+<div class="page-wrap">
+  <div class="glow"></div>
+  <div class="glow-2"></div>
+
+  <div class="badge"><span>Online Payment Coming Soon</span></div>
+  <h1>We're almost ready to take bookings online.</h1>
+  <p class="subtitle">Online payment isn't available just yet &mdash; but you can still get started today. Book a free 15-minute consultation and we'll scope the right engagement together.</p>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-label">Available now</div>
+      <h3>Free 15-Minute Consultation</h3>
+      <p>A quick call to talk through your operation, your priorities, and whether a full evaluation makes sense. No commitment, no payment.</p>
+      <a href="https://calendly.com/zach-winecoanalytics" class="btn-primary" onclick="gtag('event','booking_page_cta',{cta_type:'consultation'})">Book a Free Consultation &rarr;</a>
+    </div>
+    <div class="card">
+      <div class="card-label">Coming soon</div>
+      <h3>1-Hour Evaluation</h3>
+      <p>One hour &mdash; on-site or remote. We look at your software, your operations, or both, and tell you what we'd fix first. Online payment launching soon.</p>
+      <a href="#notify" class="btn-primary" style="background:var(--bg3);color:var(--muted);cursor:default;pointer-events:none;">Payment Coming Soon</a>
+    </div>
+  </div>
+
+  <div class="notify-section" id="notify">
+    <h3>Get notified when online booking goes live</h3>
+    <p>Leave your email and we'll let you know the moment you can book and pay online.</p>
+    <form class="notify-form" id="notifyForm">
+      <input type="email" class="notify-input" id="notifyEmail" placeholder="you@yourbusiness.com" required>
+      <button type="submit" class="notify-submit">Notify Me</button>
+    </form>
+    <div class="notify-success" id="notifySuccess">You're on the list. We'll be in touch.</div>
+  </div>
+</div>
+
+<script>
+document.getElementById('notifyForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var email = document.getElementById('notifyEmail').value;
+
+  gtag('event', 'booking_notify_signup', {
+    email: email
+  });
+
+  document.getElementById('notifySuccess').style.display = 'block';
+  document.getElementById('notifyForm').style.display = 'none';
+});
+
+// Log page view interest
+gtag('event', 'booking_page_view');
+</script>
+
+</body>
+</html>
