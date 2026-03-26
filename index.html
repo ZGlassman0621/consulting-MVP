@@ -534,6 +534,25 @@
   }
   .eval-btn:hover { background: rgba(255,59,139,0.2); border-color: var(--pink); }
 
+  .quiz-callout {
+    max-width: 860px;
+    margin: 24px auto 0;
+    text-align: center;
+  }
+  .quiz-callout p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .quiz-callout a {
+    color: var(--pink);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,59,139,0.3);
+    transition: border-color 0.2s;
+  }
+  .quiz-callout a:hover { border-color: var(--pink); }
+
   /* TIERS */
   #tiers {
     background: var(--bg);
@@ -1017,6 +1036,9 @@
       <p>One hour &mdash; on-site or remote. We look at your software, your operations, or both, and tell you what we'd fix first. The $400 applies in full toward any engagement if you move forward.</p>
     </div>
     <a href="https://calendly.com/zach-winecoanalytics" class="eval-btn" onclick="gtag('event','cta_click',{cta_location:'start_here'})">Book Now &rarr;</a>
+  </div>
+  <div class="quiz-callout">
+    <p>Want to see where you stand first? <a href="quiz.html" onclick="gtag('event','cta_click',{cta_location:'start_here_quiz'})">Take our free Operations Quiz</a> &mdash; get a scored breakdown of your software, operations, and business awareness in under 5 minutes.</p>
   </div>
 </section>
 
