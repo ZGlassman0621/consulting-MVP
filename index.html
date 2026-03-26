@@ -551,7 +551,13 @@
     border-bottom: 1px solid rgba(255,59,139,0.3);
     transition: border-color 0.2s;
   }
-  .quiz-callout a:hover { border-color: var(--pink); }
+  .quiz-callout a:not(.btn-quiz):hover { border-color: var(--pink); }
+  .quiz-callout .btn-quiz { margin: 12px 0; }
+  .quiz-callout-sub {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+  }
 
   /* TIERS */
   #tiers {
@@ -1038,7 +1044,9 @@
     <a href="https://calendly.com/zach-winecoanalytics" class="eval-btn" onclick="gtag('event','cta_click',{cta_location:'start_here'})">Book Now &rarr;</a>
   </div>
   <div class="quiz-callout">
+    <p>Want to see where you stand first?</p>
     <a href="quiz.html" class="btn-quiz" onclick="gtag('event','cta_click',{cta_location:'start_here_quiz'})">Take the Free Operations Quiz &rarr;</a>
+    <p class="quiz-callout-sub">Get a scored breakdown of your software, operations, and business awareness in under 5 minutes.</p>
   </div>
 </section>
 
