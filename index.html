@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cohort Analytics — Wine Industry Consulting</title>
+<title>Cohort Analytics — Craft Beverage &amp; Hospitality Consulting</title>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-X42PDQJJ44"></script>
 <script>
@@ -264,6 +264,28 @@
   .section-header { margin-bottom: 64px; }
   .centered { text-align: center; }
   .centered .section-sub { margin: 0 auto; }
+
+  /* VERTICALS STRIP */
+  .verticals-strip {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 48px;
+    text-align: center;
+  }
+  .verticals-list {
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--off-white);
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+  }
+  .verticals-sub {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+  }
 
   /* SOUND FAMILIAR */
   #familiar {
@@ -907,6 +929,8 @@
     section { padding: 72px 24px; }
     .hero { padding: 100px 24px 60px; }
     .hero h1 { font-size: 40px; letter-spacing: -1.5px; }
+    .verticals-strip { padding: 36px 24px; }
+    .verticals-list { font-size: 12px; line-height: 1.8; }
     .steps-container, .tiers-grid, .team-grid, .retainers-grid, .pain-grid { grid-template-columns: 1fr; }
     .eval-card { grid-template-columns: 1fr; gap: 20px; }
     .eval-price-block { border-right: none; padding-right: 0; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
@@ -928,7 +952,7 @@
     <li><a href="#tiers">Services</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#faq">FAQ</a></li>
-    <li><a href="https://calendly.com/zach-winecoanalytics" class="nav-cta" onclick="gtag('event','cta_click',{cta_location:'nav'})">Book Evaluation &mdash; $400</a></li>
+    <li><a href="https://calendly.com/zach-winecoanalytics" class="nav-cta" onclick="gtag('event','cta_click',{cta_location:'nav'})">Book Evaluation</a></li>
   </ul>
 </nav>
 
@@ -938,13 +962,19 @@
   <div class="hero-glow-2"></div>
   <div class="hero-eyebrow">Cohort Analytics</div>
   <div class="hero-eyebrow-sub">Evaluate &nbsp;&middot;&nbsp; Streamline &nbsp;&middot;&nbsp; Connect</div>
-  <h1>Your winery keeps getting better.<br><span class="accent-pink">Let's find what hasn't caught up yet.</span></h1>
-  <p class="hero-sub">Your winery deserves a second set of eyes on the operation. We work alongside your team to find the parts of your setup that haven't kept pace &mdash; your software, your guest experience, your revenue strategy &mdash; and hand you a clear plan to bring them forward.</p>
+  <h1>Your business keeps getting better.<br><span class="accent-pink">Let's find what hasn't caught up yet.</span></h1>
+  <p class="hero-sub">Every tasting room, taproom, restaurant, and retail floor deserves a second set of eyes on the operation. We work alongside your team to find the parts of your setup that haven't kept pace &mdash; your software, your guest experience, your revenue strategy &mdash; and hand you a clear plan to bring them forward.</p>
   <div class="hero-actions">
-    <a href="https://calendly.com/zach-winecoanalytics" class="btn-primary" onclick="gtag('event','cta_click',{cta_location:'hero'})">Book a 1-Hour Evaluation &mdash; $400 &rarr;</a>
+    <a href="https://calendly.com/zach-winecoanalytics" class="btn-primary" onclick="gtag('event','cta_click',{cta_location:'hero'})">Book a 1-Hour Evaluation &rarr;</a>
     <a href="quiz.html" class="btn-quiz" onclick="gtag('event','cta_click',{cta_location:'hero_quiz'})">Take the Free Operations Quiz &rarr;</a>
   </div>
 </section>
+
+<!-- VERTICALS STRIP -->
+<div class="verticals-strip">
+  <div class="verticals-list">Wineries &nbsp;&middot;&nbsp; Breweries &nbsp;&middot;&nbsp; Distilleries &nbsp;&middot;&nbsp; Meaderies &nbsp;&middot;&nbsp; Cider Houses &nbsp;&middot;&nbsp; Restaurants &nbsp;&middot;&nbsp; Wine Bars &nbsp;&middot;&nbsp; Wine Shops</div>
+  <div class="verticals-sub">Same disconnected software. Same operational blind spots. We audit both &mdash; no matter what you pour.</div>
+</div>
 
 <!-- SOUND FAMILIAR -->
 <section id="familiar">
@@ -959,7 +989,7 @@
     </div>
     <div class="pain-item">
       <div class="pain-dot"></div>
-      <p>Guests who taste and leave without joining the wine club</p>
+      <p>Guests who visit once and never come back &mdash; no membership, no mailing list, no second visit</p>
     </div>
     <div class="pain-item">
       <div class="pain-dot"></div>
@@ -985,7 +1015,7 @@
   <div class="section-header centered">
     <div class="section-label">How it works</div>
     <h2 class="section-title">Three steps. One clear plan.</h2>
-    <p class="section-sub">Every engagement is built around what your winery actually needs &mdash; not a template.</p>
+    <p class="section-sub">Every engagement is built around what your business actually needs &mdash; not a template.</p>
   </div>
   <div class="steps-container">
     <div class="step-card">
@@ -996,7 +1026,7 @@
     <div class="step-card">
       <div class="step-icon-wrap">2</div>
       <h3>We find what matters</h3>
-      <p>Through a structured evaluation, we identify where your software is costing you more than it should, where your operations are leaving revenue behind, and where the two connect. We scope the engagement around what your winery actually needs.</p>
+      <p>Through a structured evaluation, we identify where your software is costing you more than it should, where your operations are leaving revenue behind, and where the two connect. We scope the engagement around what your business actually needs.</p>
     </div>
     <div class="step-card">
       <div class="step-icon-wrap">3</div>
@@ -1011,7 +1041,7 @@
   <div class="section-header centered">
     <div class="section-label">Who we are</div>
     <h2 class="section-title">Built from inside<br>the industry.</h2>
-    <p class="section-sub">We're not consultants who discovered wine last year. Zach has spent 15 years inside wine operations. Madeleine has spent years turning first-time visitors into regulars. Together, they cover both sides of what makes a winery run &mdash; the systems and the experience.</p>
+    <p class="section-sub">We're not consultants who read a blog post about hospitality last year. Zach has spent 15 years inside wine and beverage operations. Madeleine has spent years turning first-time visitors into regulars. Together, they cover both sides of what makes a tasting room, taproom, or retail floor run &mdash; the systems and the experience.</p>
   </div>
   <div class="team-grid">
     <div class="team-card">
@@ -1019,14 +1049,14 @@
       <div class="team-name">Zach Glassman</div>
       <div class="team-title">Co-Founder &amp; Chief Executive Officer</div>
       <div class="team-creds">Certified Specialist of Wine &middot; Certified Sommelier &middot; Certified Software Engineer</div>
-      <p class="team-bio">Zach is a Certified Sommelier, Certified Specialist of Wine, and certified software engineer with an MBA in progress and 15 years inside American wineries &mdash; from Napa and Sonoma to Long Island. He's trained restaurant and tasting room staff to read guests and close sales, built wine clubs and library programs that retain members, and watched enough wineries lose money to the same fixable problems that he built Cohort Analytics to fix them. You'll find him in the field, leading every on-site engagement himself.</p>
+      <p class="team-bio">Zach is a Certified Sommelier, Certified Specialist of Wine, and certified software engineer with an MBA in progress and 15 years inside American wine and beverage operations &mdash; from California to Connecticut to New York City, and home to Long Island. He's trained tasting room and restaurant staff in hospitality, built e-commerce systems that increase sales year over year, designed membership and loyalty programs that retain customers and grow, and watched enough businesses lose money to the same fixable problems that he built Cohort Analytics to fix them. You'll find him in the field, leading every on-site engagement himself.</p>
     </div>
     <div class="team-card">
       <div class="team-avatar">MK</div>
       <div class="team-name">Madeleine Koestner</div>
       <div class="team-title">Co-Founder &amp; Chief Revenue Officer</div>
       <div class="team-creds">Event Strategy &middot; Business Development &middot; Wine Enthusiast</div>
-      <p class="team-bio">Madeleine spent years running events for her micro cinema in Queens &mdash; managing ticketing, guest flow, vendor relationships, staffing, and the moment a first-time visitor becomes a regular. At Cohort Analytics, she brings that same discipline to wineries: building events and programs that convert guests into members and return visitors, leading wedding consulting and business development, and shaping every piece of marketing and copy that carries the Cohort name.</p>
+      <p class="team-bio">Madeleine spent years running events for her micro cinema in Queens &mdash; managing ticketing, guest flow, vendor relationships, staffing, and the moment a first-time visitor becomes a regular. At Cohort Analytics, she brings that same discipline to every client: building events and programs that convert guests into members and return visitors, leading wedding consulting and business development, and shaping every piece of marketing and copy that carries the Cohort name.</p>
     </div>
   </div>
 </section>
@@ -1045,7 +1075,7 @@
     </div>
     <div class="eval-body">
       <strong>1-Hour Evaluation</strong>
-      <p>One hour &mdash; on-site or remote. We look at your software, your operations, or both, and tell you what we'd fix first. The $400 applies in full toward any engagement if you move forward.</p>
+      <p>One hour &mdash; on-site or remote. We look at your software, your operations, or both, and tell you what we'd fix first. The cost of the 1-hour evaluation applies as a credit toward any engagement.</p>
     </div>
     <a href="https://calendly.com/zach-winecoanalytics" class="eval-btn eval-btn-blue" onclick="gtag('event','cta_click',{cta_location:'start_here'})">Book Now &rarr;</a>
   </div>
@@ -1061,7 +1091,7 @@
   <div class="section-header centered">
     <div class="section-label">Engagements</div>
     <h2 class="section-title">Three tracks. Pick what fits.</h2>
-    <p class="section-sub">Some wineries need their software cleaned up. Some need their guest experience and revenue strategy rebuilt. Most need both. Pick the track that fits &mdash; or let the 1-Hour Evaluation tell you.</p>
+    <p class="section-sub">Some businesses need their software cleaned up. Some need their guest experience and revenue strategy rebuilt. Most need both. Pick the track that fits &mdash; or let the 1-Hour Evaluation tell you.</p>
   </div>
 
   <div class="tiers-grid">
@@ -1088,8 +1118,8 @@
       <div class="tier-divider"></div>
       <ul class="tier-includes">
         <li>Guest journey &amp; conversion analysis</li>
-        <li>Wine club structure &amp; growth strategy</li>
-        <li>Library pricing &amp; feature recommendations</li>
+        <li>Membership &amp; loyalty program strategy</li>
+        <li>Pricing structure &amp; feature recommendations</li>
         <li>Staff sales &amp; hospitality assessment</li>
         <li>Revenue initiative identification</li>
         <li>Cohort Analytics Playbook</li>
@@ -1121,7 +1151,7 @@
   <div class="section-header centered">
     <div class="section-label">Retainers</div>
     <h2 class="section-title">Stay on track after the engagement.</h2>
-    <p class="section-sub">Most wineries don't need a retainer. But if your operation is changing fast &mdash; new software, growing team, seasonal complexity &mdash; we'll keep your Playbook current and your systems clean.</p>
+    <p class="section-sub">Think of it as having a partner on call. We work in tandem with your operation so that when something shifts &mdash; a new system, a staffing change, a seasonal pivot &mdash; you're not figuring it out alone. We'll be available when you need us.</p>
   </div>
   <div class="retainers-grid">
     <div class="retainer-card">
@@ -1134,7 +1164,7 @@
       <div class="retainer-name">Operations Retainer</div>
       <div class="retainer-price">$1,000</div>
       <div class="retainer-price-label">per month</div>
-      <p class="retainer-desc">Monthly guidance, Playbook updates, seasonal planning, and wine club management.</p>
+      <p class="retainer-desc">Monthly guidance, Playbook updates, seasonal planning, and membership program management.</p>
     </div>
     <div class="retainer-card">
       <div class="retainer-name">Software &amp; Operations</div>
@@ -1153,8 +1183,8 @@
   </div>
   <div class="faq-list">
     <div class="faq-item">
-      <div class="faq-q" onclick="this.parentElement.classList.toggle('open');gtag('event','faq_open',{faq_question:'winery_size'})">What size winery is this for?</div>
-      <div class="faq-a">Any size. We scope every engagement around what you actually need &mdash; the difference is your priorities, not your production volume.</div>
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open');gtag('event','faq_open',{faq_question:'business_size'})">What size business is this for?</div>
+      <div class="faq-a">Any size. We scope every engagement around what you actually need &mdash; the difference is your priorities, not your production volume or cover count.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="this.parentElement.classList.toggle('open');gtag('event','faq_open',{faq_question:'preparation'})">What do I need to prepare before you arrive?</div>
@@ -1170,7 +1200,7 @@
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="this.parentElement.classList.toggle('open');gtag('event','faq_open',{faq_question:'service_area'})">Where do you work?</div>
-      <div class="faq-a">We serve wineries across North America. Travel logistics and any pricing adjustments are discussed as part of the booking process.</div>
+      <div class="faq-a">We serve craft beverage and hospitality businesses across North America. Travel logistics and any pricing adjustments are discussed as part of the booking process.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="this.parentElement.classList.toggle('open');gtag('event','faq_open',{faq_question:'payment_terms'})">What are your payment terms?</div>
@@ -1183,7 +1213,7 @@
 <div class="cta-banner">
   <h2>Ready to find out what's working<br>and what isn't?</h2>
   <p>Book your 1-Hour Evaluation. We'll tell you exactly what's working, what isn't, and what to do about it.</p>
-  <a href="https://calendly.com/zach-winecoanalytics" class="btn-primary" onclick="gtag('event','cta_click',{cta_location:'bottom_cta'})">Book a 1-Hour Evaluation &mdash; $400 &rarr;</a>
+  <a href="https://calendly.com/zach-winecoanalytics" class="btn-primary" onclick="gtag('event','cta_click',{cta_location:'bottom_cta'})">Book a 1-Hour Evaluation &rarr;</a>
 </div>
 
 <!-- FOOTER -->
