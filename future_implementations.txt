@@ -11,6 +11,11 @@ COHORT ANALYTICS — Future Implementations
    - Needs an intake form and landing page
    - Placeholder link currently in quiz.html results page
 
+4. Stripe Checkout / Booking Page
+   - All CTA "Book Evaluation" buttons currently link to Calendly
+   - Need to build a Stripe-powered checkout page where the $400 evaluation price is revealed and paid
+   - Update all CTA links from Calendly to the new checkout page once live
+
 3. Google Sheets Quiz Logging
    - Quiz is built to POST results to a Google Sheet via webhook
    - Need to: create the Sheet, deploy the Apps Script (code is in quiz.html comments), and paste the deployed URL into the SHEETS_WEBHOOK_URL constant in quiz.html
