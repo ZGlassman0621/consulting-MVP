@@ -405,8 +405,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
-    max-width: 600px;
-    margin: 0 auto 44px;
+    transition: filter 0.4s ease;
   }
 
   .breakdown-card {
@@ -462,6 +461,41 @@
   .breakdown-card:nth-child(1) .breakdown-bar { background: var(--blue); }
   .breakdown-card:nth-child(2) .breakdown-bar { background: var(--pink); }
   .breakdown-card:nth-child(3) .breakdown-bar { background: var(--green); }
+
+  .result-breakdown-wrap {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto 44px;
+  }
+
+  .result-breakdown-locked {
+    filter: blur(6px);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .result-breakdown-unlocked {
+    filter: none;
+    pointer-events: auto;
+    user-select: auto;
+  }
+
+  .breakdown-lock-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .breakdown-lock-overlay p {
+    font-size: 14px;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .breakdown-lock-overlay.hidden { display: none; }
 
   /* CTAs */
   .result-ctas {
@@ -655,15 +689,20 @@
         <div class="result-score-detail" id="resultScoreDetail"></div>
       </div>
       <p class="result-message" id="resultMessage"></p>
-      <div class="result-breakdown" id="resultBreakdown"></div>
       <div class="result-ctas" id="resultCtas"></div>
-      <div class="email-capture">
-        <p>Want a copy of your results? Enter your email and we'll send them over.</p>
+      <div class="email-capture" id="emailCapture">
+        <p>Enter your email to unlock your full category breakdown &mdash; a personalized summary of where to focus first.</p>
         <form class="email-form" id="emailForm">
           <input type="email" class="email-input" id="emailInput" placeholder="you@yourbusiness.com" required>
-          <button type="submit" class="email-submit">Send Results</button>
+          <button type="submit" class="email-submit">Unlock Breakdown</button>
         </form>
-        <div class="email-success" id="emailSuccess">Sent! Check your inbox.</div>
+        <div class="email-success" id="emailSuccess">Here are your detailed results:</div>
+      </div>
+      <div class="result-breakdown-wrap" id="resultBreakdownWrap">
+        <div class="result-breakdown result-breakdown-locked" id="resultBreakdown"></div>
+        <div class="breakdown-lock-overlay" id="breakdownLockOverlay">
+          <p>Enter your email above to see your full category breakdown</p>
+        </div>
       </div>
     </div>
 
@@ -1504,6 +1543,12 @@ document.getElementById('emailForm').addEventListener('submit', function(e) {
 
   document.getElementById('emailSuccess').style.display = 'block';
   document.getElementById('emailForm').style.display = 'none';
+
+  // Unlock the breakdown
+  var breakdown = document.getElementById('resultBreakdown');
+  breakdown.classList.remove('result-breakdown-locked');
+  breakdown.classList.add('result-breakdown-unlocked');
+  document.getElementById('breakdownLockOverlay').classList.add('hidden');
 });
 
 // ============================================================
