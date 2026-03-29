@@ -418,7 +418,7 @@
     transition: border-color 0.2s, transform 0.2s;
   }
   .breakdown-card:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-1px); }
-  .breakdown-card.expanded { border-color: var(--border-bright); }
+  .breakdown-card.expanded { }
 
   .breakdown-hint {
     font-size: 11px;
@@ -500,10 +500,14 @@
   .breakdown-card:nth-child(2) .breakdown-bar { background: var(--pink); }
   .breakdown-card:nth-child(3) .breakdown-bar { background: var(--green); }
 
+  .breakdown-card:nth-child(1).expanded { border-color: var(--blue); }
+  .breakdown-card:nth-child(2).expanded { border-color: var(--pink); }
+  .breakdown-card:nth-child(3).expanded { border-color: var(--green); }
+
   .result-breakdown-wrap {
     position: relative;
     max-width: 600px;
-    margin: 0 auto 44px;
+    margin: 32px auto 44px;
   }
 
   .result-breakdown-locked {
@@ -1412,17 +1416,17 @@ function getBreakdownInsights(swScore, swMax, opsScore, opsMax, awScore, awMax) 
     if (pct >= 70) return {
       level: 'Strong foundation',
       color: 'var(--green)',
-      text: 'Your software stack is solid. There may still be overlap between tools or features you\'re paying for and not using. A quick audit could surface savings without changing your workflow.'
+      text: 'Your software stack is in good shape. There may still be overages, duplicated subscriptions, or features you\'re paying for and not using. A quick audit could surface savings and expand your e-commerce options without disrupting your workflow.'
     };
     if (pct >= 40) return {
       level: 'Room to improve',
       color: 'var(--blue)',
-      text: 'You have systems in place, but they\'re likely not talking to each other the way they should. Disconnected tools mean manual workarounds and lost data. We can map what you have, find the gaps, and recommend a stack that actually works together.'
+      text: 'You have systems in place, but there are likely overages or doubled-up subscriptions costing you more than they should. We can map what you have, find redundancies, identify savings, and look for ways to expand your e-commerce reach.'
     };
     return {
       level: 'Needs attention',
       color: 'var(--pink)',
-      text: 'Your technology is creating more work than it eliminates. Whether it\'s outdated systems, redundant subscriptions, or tools your team has outgrown, there\'s significant time and money being left on the table. A Software Essentials engagement would give you a clear picture and a prioritized plan.'
+      text: 'Your technology is costing more than it should. Whether it\'s duplicated subscriptions, software you\'ve outgrown, or missed e-commerce opportunities, there\'s significant money being left on the table. A Software Essentials engagement would give you a clear inventory, surface the overages, and lay out a prioritized plan.'
     };
   }
 
@@ -1568,7 +1572,7 @@ function showResults() {
   breakdownEl.innerHTML = categories.map(function(cat, i) {
     var pct = cat.max > 0 ? Math.round((cat.score / cat.max) * 100) : 0;
     var insight = insights[i];
-    return '<div class="breakdown-card" onclick="this.classList.toggle(\'expanded\')">' +
+    return '<div class="breakdown-card" onclick="selectBreakdownCard(this)">' +
       '<div class="breakdown-score">' + cat.score + '</div>' +
       '<div class="breakdown-max">out of ' + cat.max + '</div>' +
       '<div class="breakdown-bar-wrap"><div class="breakdown-bar" style="width:' + pct + '%"></div></div>' +
@@ -1608,6 +1612,13 @@ function showResults() {
 // ============================================================
 // CTA CLICK HANDLER
 // ============================================================
+function selectBreakdownCard(card) {
+  var wasExpanded = card.classList.contains('expanded');
+  var cards = card.parentElement.querySelectorAll('.breakdown-card');
+  cards.forEach(function(c) { c.classList.remove('expanded'); });
+  if (!wasExpanded) card.classList.add('expanded');
+}
+
 function handleCtaClick(ctaType) {
   const percentage = parseInt(document.getElementById('resultPercentage').textContent);
   let tier;
