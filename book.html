@@ -351,8 +351,9 @@
       <div class="form-error" id="formError">Something went wrong. Please try again or email us directly.</div>
     </form>
     <div class="form-success" id="formSuccess">
-      <h3>We got your info.</h3>
-      <p>We'll be in touch within one business day to talk through your operation and figure out the best next step.</p>
+      <p style="color:var(--off-white);margin-bottom:20px;">Want to see where your business stands while you wait?</p>
+      <a href="quiz.html" class="form-submit" style="display:inline-flex;text-decoration:none;width:auto;margin-top:0;" onclick="gtag('event','cta_click',{cta_location:'post_intake_quiz'})">Take the Free Operations Quiz &rarr;</a>
+      <p style="margin-top:12px;font-size:13px;">Get a scored breakdown of your software, operations, and business awareness in under 5 minutes.</p>
     </div>
   </div>
 
@@ -370,6 +371,7 @@ document.getElementById('intakeForm').addEventListener('submit', function(e) {
   document.getElementById('formError').style.display = 'none';
 
   var payload = {
+    action: 'lead_form',
     name: document.getElementById('name').value,
     email: document.getElementById('email').value,
     business: document.getElementById('business').value,
@@ -390,8 +392,12 @@ document.getElementById('intakeForm').addEventListener('submit', function(e) {
     body: JSON.stringify(payload)
   })
   .then(function() {
+    localStorage.setItem('cohort_lead_email', payload.email);
+    localStorage.setItem('cohort_lead_name', payload.name);
     document.getElementById('intakeForm').style.display = 'none';
     document.getElementById('formSuccess').style.display = 'block';
+    document.querySelector('h1').textContent = 'Thank you for your submission.';
+    document.querySelector('.subtitle').textContent = 'We will be with you within 24\u201348 hours.';
   })
   .catch(function() {
     document.getElementById('formError').style.display = 'block';

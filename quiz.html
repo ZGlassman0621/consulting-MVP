@@ -713,7 +713,7 @@
 // ============================================================
 // Google Sheets Webhook
 // ============================================================
-const SHEETS_WEBHOOK_URL = '';
+const SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzn6F7zp3ba4ItVvU4gF4VSQgsuYU3Vo6nJCwUmIqiZ1OROXURkXOCsQtEOu9gzWHpP/exec';
 
 // Session ID
 function generateUUID() {
@@ -1424,6 +1424,9 @@ function showResults() {
   }
 
   // Fire GA4 complete event
+  var leadEmail = localStorage.getItem('cohort_lead_email') || '';
+  var leadName = localStorage.getItem('cohort_lead_name') || '';
+
   gtag('event', 'quiz_complete', {
     session_id: SESSION_ID,
     vertical: selectedVertical,
@@ -1433,7 +1436,9 @@ function showResults() {
     tier: tier,
     software_subscore: softwareScore,
     operations_subscore: opsScore,
-    awareness_subscore: awarenessScore
+    awareness_subscore: awarenessScore,
+    lead_email: leadEmail,
+    lead_name: leadName
   });
 
   // Render score
@@ -1577,7 +1582,8 @@ function sendToSheets(totalScore, maxPossible, percentage, tier, softwareScore, 
     software_subscore: softwareScore,
     operations_subscore: opsScore,
     awareness_subscore: awarenessScore,
-    email: '',
+    email: localStorage.getItem('cohort_lead_email') || '',
+    lead_name: localStorage.getItem('cohort_lead_name') || '',
     cta_clicked: ''
   };
 
