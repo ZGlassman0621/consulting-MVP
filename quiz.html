@@ -414,6 +414,44 @@
     border-radius: 10px;
     padding: 24px 16px;
     text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .breakdown-card:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-1px); }
+  .breakdown-card.expanded { border-color: var(--border-bright); }
+
+  .breakdown-hint {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 8px;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+  }
+  .breakdown-card:hover .breakdown-hint { opacity: 1; }
+  .breakdown-card.expanded .breakdown-hint { display: none; }
+
+  .breakdown-detail {
+    display: none;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    text-align: left;
+  }
+  .breakdown-card.expanded .breakdown-detail { display: block; }
+
+  .breakdown-detail p {
+    font-size: 13.5px;
+    color: var(--off-white);
+    line-height: 1.7;
+    margin-bottom: 0;
+  }
+  .breakdown-detail .detail-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
   }
 
   .breakdown-score {
@@ -1365,6 +1403,72 @@ function selectAnswer(qIdx, optIdx) {
 // ============================================================
 // CALCULATE & SHOW RESULTS
 // ============================================================
+function getBreakdownInsights(swScore, swMax, opsScore, opsMax, awScore, awMax) {
+  var swPct = swMax > 0 ? Math.round((swScore / swMax) * 100) : 0;
+  var opsPct = opsMax > 0 ? Math.round((opsScore / opsMax) * 100) : 0;
+  var awPct = awMax > 0 ? Math.round((awScore / awMax) * 100) : 0;
+
+  function getSoftwareInsight(pct) {
+    if (pct >= 70) return {
+      level: 'Strong foundation',
+      color: 'var(--green)',
+      text: 'Your software stack is solid. There may still be overlap between tools or features you\'re paying for and not using. A quick audit could surface savings without changing your workflow.'
+    };
+    if (pct >= 40) return {
+      level: 'Room to improve',
+      color: 'var(--blue)',
+      text: 'You have systems in place, but they\'re likely not talking to each other the way they should. Disconnected tools mean manual workarounds and lost data. We can map what you have, find the gaps, and recommend a stack that actually works together.'
+    };
+    return {
+      level: 'Needs attention',
+      color: 'var(--pink)',
+      text: 'Your technology is creating more work than it eliminates. Whether it\'s outdated systems, redundant subscriptions, or tools your team has outgrown, there\'s significant time and money being left on the table. A Software Essentials engagement would give you a clear picture and a prioritized plan.'
+    };
+  }
+
+  function getOpsInsight(pct) {
+    if (pct >= 70) return {
+      level: 'Strong foundation',
+      color: 'var(--green)',
+      text: 'Your operation runs well. At this level, the gains come from fine-tuning \u2014 tightening your membership strategy, optimizing pricing tiers, or refining the guest journey to increase per-visit revenue.'
+    };
+    if (pct >= 40) return {
+      level: 'Room to improve',
+      color: 'var(--blue)',
+      text: 'The bones are there, but the guest experience and revenue strategy could be sharper. There are likely opportunities in how you structure memberships, handle events, or convert first-time visitors into repeat customers. We can help you find them.'
+    };
+    return {
+      level: 'Needs attention',
+      color: 'var(--pink)',
+      text: 'There are real revenue opportunities being missed in your day-to-day operations. From how guests are greeted to how memberships are structured, small changes in process can lead to significant gains. An Operational Efficiency engagement would map it all out.'
+    };
+  }
+
+  function getAwarenessInsight(pct) {
+    if (pct >= 70) return {
+      level: 'Strong foundation',
+      color: 'var(--green)',
+      text: 'You know your numbers and your business well. That self-awareness is rare and valuable \u2014 it means any changes we recommend will land faster because you already understand where the leverage is.'
+    };
+    if (pct >= 40) return {
+      level: 'Room to improve',
+      color: 'var(--blue)',
+      text: 'You have a general sense of where things stand, but some blind spots could be holding you back. Understanding your true cost structure, knowing exactly where revenue comes from, and having a clear implementation timeline all make a big difference.'
+    };
+    return {
+      level: 'Needs attention',
+      color: 'var(--pink)',
+      text: 'It\'s hard to fix what you can\'t see. Without a clear picture of your costs, revenue drivers, and operational bottlenecks, decisions end up being reactive instead of strategic. This is exactly what our evaluation process is built to uncover.'
+    };
+  }
+
+  return [
+    getSoftwareInsight(swPct),
+    getOpsInsight(opsPct),
+    getAwarenessInsight(awPct)
+  ];
+}
+
 function showResults() {
   questionScreen.classList.remove('active');
   resultsScreen.classList.add('active');
@@ -1459,13 +1563,21 @@ function showResults() {
     { label: 'Business Awareness', score: awarenessScore, max: awarenessMax }
   ];
 
-  breakdownEl.innerHTML = categories.map(function(cat) {
-    const pct = cat.max > 0 ? Math.round((cat.score / cat.max) * 100) : 0;
-    return '<div class="breakdown-card">' +
+  var insights = getBreakdownInsights(softwareScore, softwareMax, opsScore, opsMax, awarenessScore, awarenessMax);
+
+  breakdownEl.innerHTML = categories.map(function(cat, i) {
+    var pct = cat.max > 0 ? Math.round((cat.score / cat.max) * 100) : 0;
+    var insight = insights[i];
+    return '<div class="breakdown-card" onclick="this.classList.toggle(\'expanded\')">' +
       '<div class="breakdown-score">' + cat.score + '</div>' +
       '<div class="breakdown-max">out of ' + cat.max + '</div>' +
       '<div class="breakdown-bar-wrap"><div class="breakdown-bar" style="width:' + pct + '%"></div></div>' +
       '<div class="breakdown-label">' + cat.label + '</div>' +
+      '<div class="breakdown-hint">tap for details</div>' +
+      '<div class="breakdown-detail">' +
+        '<div class="detail-label" style="color:' + insight.color + ';">' + insight.level + '</div>' +
+        '<p>' + insight.text + '</p>' +
+      '</div>' +
     '</div>';
   }).join('');
 
